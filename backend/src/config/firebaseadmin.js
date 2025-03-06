@@ -1,12 +1,16 @@
 import admin from 'firebase-admin';
 import { readFileSync } from "fs";
-const serviceAccount = JSON.parse(
-    readFileSync(new URL("./serviceAccountsKey.json", import.meta.url))
-  );
+
 admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    projectId: 'gradewise-backend'
+  credential: admin.credential.cert({
+    projectId: process.env.GOOGLE_PROJECT_ID,
+    privateKey: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+    clientEmail: process.env.GOOGLE_CLIENT_EMAIL,
+  }),
+  projectId: 'gradewise-backend'
 })
+
+
 
 const auth = admin.auth()
 
