@@ -5,25 +5,30 @@ import { supabase } from "../utils/supabase.js";
 import { createWorker } from "tesseract.js";
 import AppError from "../utils/AppError.js";
 
-export const gradingHandler = async (req, res,next) => {
+export const gradingHandler = async (req, res, next) => {
   try {
-    const { studentId, assignmentId, studentAnswer, question, maxScore, gradingCriteria } = req.body;
+    const { studentId, assignmentId, maxScore, gradingCriteria } = req.body;
+    if (!studentId || !assignmentId || !maxScore || !gradingCriteria) {
+      throw new AppError("Missing required fields", 400)
+    }
+    // get image public Url Supabase
     const { data } = await supabase
       .storage
       .from('assignment')
       .getPublicUrl(req.filePath)
 
+    // Text recognition 
     const worker = await createWorker('eng')
     const ret = await worker.recognize(data.publicUrl)
-    const answerText = ret.data.text;
+    const studentAnswer = ret.data.text;
     await worker.terminate();
 
-    if (!studentId || !assignmentId || !studentAnswer || !maxScore || !gradingCriteria) {
-      throw new AppError("Missing required fields", 400)
-    }
+    // Add Map To Vector DB 
+
+    // Plagiarism Detector 
 
     // AI Grading
-    const { score, feedback } = await gradeAssignment(answerText, maxScore, gradingCriteria);
+    const { score, feedback } = await gradeAssignment(studentAnswer, maxScore, gradingCriteria);
 
     // Store grading result in Firestore
     await addDoc(collection(db, "grades"), {
@@ -35,6 +40,7 @@ export const gradingHandler = async (req, res,next) => {
       timestamp: serverTimestamp(),
     });
 
+    // Response 
     return res.json({ success: true, score, feedback });
   } catch (error) {
     return next(error)
