@@ -43,7 +43,7 @@ export const gradingHandler = async (req, res, next) => {
       console.log(plagiarismMatches)
       throw new AppError("Plagiarism Detected", 403)
     }
-    // Store embedding in Pinecone vector DB
+    // Store embedding in Pinecone vector DB P
     await storeDocument(embedding, vector_embedding_metadata)
 
     // AI Grading
