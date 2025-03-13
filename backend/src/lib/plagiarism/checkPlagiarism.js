@@ -13,11 +13,7 @@ export default async function checkPlagiarism(embedding, next) {
 
         return queryResult.matches
             .filter((match) => match.score >= 0.7)
-            .map(match => ({
-                id: match.id,
-                similarity: match.score,
-                metadata: match.metadata
-            }));
+            .map(match => match);
     } catch (error) {
         next(error)
     }

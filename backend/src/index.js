@@ -10,6 +10,7 @@ dotenv.config()
 const PORT = process.env.PORT || 3000
 
 app.use('/api/grading', gradingRoutes)
+app.use('/api/assignment', gradingRoutes)
 
 
 // Error handling middleware
