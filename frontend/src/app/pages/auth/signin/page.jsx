@@ -1,11 +1,10 @@
 "use client";
 import { Helmet } from "react-helmet";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import Link from "next/link"; // Import Link from Next.js
 import { FcGoogle } from "react-icons/fc";
 
 export default function DesktopTwoPage() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -27,8 +26,8 @@ export default function DesktopTwoPage() {
         <div className="w-1/2 flex flex-col justify-center items-center px-14 bg-white">
           {/* Header Navigation */}
           <header className="flex w-full justify-end space-x-6 mb-6">
-            <a href="#" className="text-lg font-medium text-black">Sign up</a>
-            <a href="#" className="text-lg font-medium text-black">About Us</a>
+            <Link href="/pages/auth/signup" className="text-lg font-medium text-black">Sign up</Link>
+            <Link href="/about-us" className="text-lg font-medium text-black">About Us</Link>
           </header>
 
           {/* Login Form */}
@@ -60,7 +59,7 @@ export default function DesktopTwoPage() {
           </div>
 
           {/* Forgot Password */}
-          <a href="#" className="text-blue-500 text-sm mb-4">Forgot your password?</a>
+          <Link href="/forgot-password" className="text-blue-500 text-sm mb-4">Forgot your password?</Link>
 
           {/* Sign-in Button */}
           <button className="w-[90%] bg-black text-white py-2 rounded-md hover:bg-gray-900 transition">
@@ -82,12 +81,9 @@ export default function DesktopTwoPage() {
           {/* Sign Up Link */}
           <p className="mt-4 text-gray-600">
             Don't have an account?{" "}
-            <span
-              className="text-blue-500 cursor-pointer"
-              onClick={() => router.push("/pages/auth/signup")}
-            >
+            <Link href="/pages/auth/signup" className="text-blue-500">
               Sign up
-            </span>
+            </Link>
           </p>
         </div>
       </div>
