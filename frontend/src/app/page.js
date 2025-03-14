@@ -1,8 +1,10 @@
 "use client";
-import { useRouter } from "next/navigation";
+
+import Link from "next/link";
+
 
 export default function Home() {
-  const router = useRouter();
+
 
   return (
     <div className="flex h-screen items-center justify-center bg-gray-100">
@@ -11,20 +13,23 @@ export default function Home() {
         <p className="text-gray-600 mb-4">Your smart learning platform</p>
 
         {/* Sign In Button */}
-        <button 
-          onClick={() => router.push("/pages/auth/signin")}
-          className="w-full bg-blue-500 text-white py-2 rounded mb-3 hover:bg-blue-600 transition"
-        >
-          Sign In
-        </button>
+        <Link href={'/auth/signin'}>
+          <button
+
+            className="w-full bg-blue-500 text-white py-2 rounded mb-3 hover:bg-blue-600 transition"
+          >
+            Sign In
+          </button>
+        </Link>
 
         {/* Sign Up Button */}
-        <button 
-          onClick={() => router.push("/pages/auth/signup")}
-          className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition"
-        >
-          Sign Up
-        </button>
+        <Link href={'/auth/signup'}>
+          <button
+            className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition"
+          >
+            Sign Up
+          </button>
+        </Link>
       </div>
     </div>
   );

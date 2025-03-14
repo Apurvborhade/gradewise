@@ -1,10 +1,10 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+
 import { FcGoogle } from "react-icons/fc";
+import Link from "next/link";
 
 export default function SignUp() {
-    const router = useRouter();
     const [role, setRole] = useState("");
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -15,17 +15,17 @@ export default function SignUp() {
             {/* Left Side - Illustration */}
             <div className="w-1/2 bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center p-10">
                 <div className="w-full h-full flex items-center justify-center">
-                    <img 
-                        src="/assests/illustration.png" 
-                        alt="Illustration" 
-                        className="w-4/5 transform transition-transform duration-500 hover:scale-105" 
+                    <img
+                        src="/assests/illustration.png"
+                        alt="Illustration"
+                        className="w-4/5 transform transition-transform duration-500 hover:scale-105"
                     />
                 </div>
             </div>
 
             {/* Right Side - Signup Form */}
             <div className="w-1/2 bg-white flex flex-col justify-center px-20 shadow-lg">
-            <h1 className="text-4xl font-semibold text-black mb-2">GradeWise</h1>
+                <h1 className="text-4xl font-semibold text-black mb-2">GradeWise</h1>
 
                 <p className="text-gray-600 mb-8">Create an account to get started</p>
 
@@ -85,12 +85,13 @@ export default function SignUp() {
                 {/* Already have an account? */}
                 <p className="text-gray-600 text-center mt-6">
                     Already have an account?{" "}
-                    <span
-                        className="text-blue-500 cursor-pointer hover:underline"
-                        onClick={() => router.push("/pages/auth/signin")}
-                    >
-                        Log in
-                    </span>
+                    <Link href={'/auth/signin'}>
+                        <span
+                            className="text-blue-500 cursor-pointer hover:underline"
+                        >
+                            Log in
+                        </span>
+                    </Link>
                 </p>
             </div>
         </div>

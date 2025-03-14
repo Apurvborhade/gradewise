@@ -1,20 +1,15 @@
 "use client";
-import { Helmet } from "react-helmet";
+
 import { useState } from "react";
 import Link from "next/link"; // Import Link from Next.js
 import { FcGoogle } from "react-icons/fc";
 
-export default function DesktopTwoPage() {
+export default function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   return (
     <>
-      <Helmet>
-        <title>GradeWise</title>
-        <meta name="description" content="Web site created using create-react-app" />
-      </Helmet>
-
       <div className="w-full flex min-h-screen">
         {/* Left Section */}
         <div className="w-1/2 bg-green-400 flex flex-col justify-center items-center p-10">
@@ -26,7 +21,7 @@ export default function DesktopTwoPage() {
         <div className="w-1/2 flex flex-col justify-center items-center px-14 bg-white">
           {/* Header Navigation */}
           <header className="flex w-full justify-end space-x-6 mb-6">
-            <Link href="/pages/auth/signup" className="text-lg font-medium text-black">Sign up</Link>
+            <Link href="/auth/signup" className="text-lg font-medium text-black">Sign up</Link>
             <Link href="/about-us" className="text-lg font-medium text-black">About Us</Link>
           </header>
 
@@ -81,7 +76,7 @@ export default function DesktopTwoPage() {
           {/* Sign Up Link */}
           <p className="mt-4 text-gray-600">
             Don't have an account?{" "}
-            <Link href="/pages/auth/signup" className="text-blue-500">
+            <Link href="/auth/signup" className="text-blue-500">
               Sign up
             </Link>
           </p>
