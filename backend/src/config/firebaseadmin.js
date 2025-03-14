@@ -1,6 +1,5 @@
 import admin from 'firebase-admin';
 
-
 admin.initializeApp({
   credential: admin.credential.cert({
     projectId: process.env.GOOGLE_PROJECT_ID,
@@ -11,7 +10,7 @@ admin.initializeApp({
 })
 
 
-
+const adminDB = admin.firestore()
 const auth = admin.auth()
 
-export { auth }
+export { auth,adminDB }
