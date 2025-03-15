@@ -2,7 +2,8 @@ import { auth } from "../config/firebaseadmin.js";
 import AppError from "../utils/AppError.js"
 
 export const decodeFirebaseIdToken = async (req, res, next) => {
-    const tokenId = req.header('Authorization').split(' ')[1]
+    const authorizationHeader = req.header('Authorization')
+    const tokenId = authorizationHeader ? authorizationHeader.split(' ')[1] : null
 
     if (!tokenId) {
         throw new AppError('You did not specify any idToken for this request')

@@ -13,4 +13,4 @@ admin.initializeApp({
 const adminDB = admin.firestore()
 const auth = admin.auth()
 
-export { auth,adminDB }
+export { auth, adminDB, admin }
