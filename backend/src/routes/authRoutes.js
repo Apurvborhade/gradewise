@@ -60,7 +60,7 @@ router.post('/signin', async (req, res, next) => {
             maxAge: 3600000
         })
         // Response 
-        res.status(201).json({ message: "User created & role assigned", uid: userRecord.uid, role, userRecord });
+        res.status(201).json({ message: "User created & role assigned", uid: userCredential.uid,userCredential });
     } catch (error) {
         next(error)
     }
