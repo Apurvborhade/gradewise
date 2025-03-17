@@ -67,6 +67,12 @@ export default function Home() {
                 </button>
               </Link>
 
+              {/* Dashboard Button */}
+              <Link href={'/dashboard'}>
+                <button className="w-full bg-orange-500 text-white py-3 rounded-md font-semibold shadow-md hover:bg-orange-600 transition">
+                  🏠 Go to Dashboard
+                </button>
+              </Link>
             </div>
 
           </div>
