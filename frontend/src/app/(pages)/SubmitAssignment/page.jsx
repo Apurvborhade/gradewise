@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation"; // Import useRouter
 import Sidebar from "../../components/Sidebar"; // Ensure correct path
 import Footer from "../../components/Footer"; // Import Footer component
 import Header from "../../components/Header"; // Import the Header component
@@ -7,6 +8,7 @@ import Header from "../../components/Header"; // Import the Header component
 const Assignments = () => {
     const [filter, setFilter] = useState("");
     const [sidebarOpen, setSidebarOpen] = useState(true); // Sidebar toggle state
+    const router = useRouter(); // Initialize the router
 
     const assignments = [
         { subject: "Math", title: "Algebra Homework" },
@@ -78,7 +80,10 @@ const Assignments = () => {
 
                         {/* See Plagiarism Button */}
                         <div className="flex justify-center mt-6">
-                            <button className="bg-gray-800 text-white px-6 py-2 rounded-md font-semibold shadow-lg">
+                            <button
+                                className="bg-gray-800 text-white px-6 py-2 rounded-md font-semibold shadow-lg"
+                                onClick={() => router.push("/plagiarism-results")} // Navigate to plagiarism results page
+                            >
                                 See Plagiarism
                             </button>
                         </div>
