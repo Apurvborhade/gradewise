@@ -53,10 +53,17 @@ export default function Home() {
                 </button>
               </Link>
 
-              {/* NEW BUTTON FOR KNOW YOUR FACULTY */}
+              {/* Know Your Faculty */}
               <Link href={'/KnowYourFaculty'}>
                 <button className="w-full bg-yellow-500 text-white py-3 rounded-md font-semibold shadow-md hover:bg-yellow-600 transition">
                   🎓 Know Your Faculty
+                </button>
+              </Link>
+
+              {/* New Button for Suggestions */}
+              <Link href={'/suggestions'}>
+                <button className="w-full bg-teal-500 text-white py-3 rounded-md font-semibold shadow-md hover:bg-teal-600 transition">
+                  💡 Suggestions
                 </button>
               </Link>
 
