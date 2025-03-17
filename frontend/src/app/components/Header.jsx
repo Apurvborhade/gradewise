@@ -11,7 +11,7 @@ const Header = () => {
             <input
                 type="text"
                 placeholder="Search..."
-                className="border rounded-md py-2 px-4 w-64 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="border rounded-md py-2 px-4 w-64 focus:outline-none focus:ring-2 focus:ring-blue-400 text-black"
             />
 
             {/* Profile / User Section (Optional) */}
