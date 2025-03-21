@@ -7,7 +7,7 @@ export default async function createGradeDoc(db, classId,studentId,
     status,
     feedback,
 ) {
-    await addDoc(collection(db, "assignments"), {
+    await addDoc(collection(db, "grades"), {
         classId,
         studentId,
         assignmentId,

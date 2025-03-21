@@ -1,8 +1,10 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import dotenv from 'dotenv'
+import { getAuth } from "firebase/auth";
 
 dotenv.config()
+
 
 const firebaseConfig = {
     apiKey: process.env.FIREBASE_APIKEY,
@@ -13,7 +15,8 @@ const firebaseConfig = {
     appId: process.env.FIREBASE_APPID,
 };
 
+
 const app = initializeApp(firebaseConfig, {});
 const db = getFirestore(app);
-
-export { db };
+const credAuth = getAuth()
+export { db, credAuth };

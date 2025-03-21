@@ -18,7 +18,7 @@ export const createClassHandler = async (req, res, next) => {
 
 
         const newClassRef = adminDB.collection('classes').doc();
-        await newClassRef.set({ facultyId, className, students: {}, requests: {} });
+        await newClassRef.set({ facultyId, className, students: {}, requests: {}, assignmentRequests: {}, assignments: {} });
 
         res.status(201).json({ message: 'Class created', classId: newClassRef.id })
     } catch (error) {
