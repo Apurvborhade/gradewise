@@ -1,4 +1,6 @@
+
 import admin from 'firebase-admin';
+
 
 admin.initializeApp({
   credential: admin.credential.cert({
@@ -8,7 +10,6 @@ admin.initializeApp({
   }),
   projectId: 'gradewise-backend'
 })
-
 
 const adminDB = admin.firestore()
 const auth = admin.auth()

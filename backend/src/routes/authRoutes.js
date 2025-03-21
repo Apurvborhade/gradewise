@@ -3,14 +3,16 @@ import AppError from '../utils/AppError.js';
 import { auth } from '../config/firebaseadmin.js';
 import { assignUserRole } from '../utils/auth/userRole.js';
 import { signInWithEmailAndPassword, getAuth } from 'firebase/auth'
+import { credAuth } from '../config/firebasedb.js';
 const router = express.Router()
 
-const credAuth = getAuth()
+
 
 router.post('/signup', async (req, res, next) => {
     const { email, password, role } = req.body
     try {
         if (!email || !password || !role) {
+        console.log(req.body)
             throw new AppError("Missing required fields")
         }
         // Create user in Firebase Authentication

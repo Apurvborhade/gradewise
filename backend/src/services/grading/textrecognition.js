@@ -1,3 +1,4 @@
+import { createWorker } from 'tesseract.js'
 export default async function detectText(data) {
     const worker = await createWorker('eng')
     const ret = await worker.recognize(data.publicUrl)
