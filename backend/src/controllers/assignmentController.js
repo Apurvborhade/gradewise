@@ -4,7 +4,7 @@ import AppError from "../utils/AppError.js"
 import { getTotalSubmissions } from "../services/assignment/totalSubmission.js"
 import { response } from "express"
 import { admin, adminDB, auth } from "../config/firebaseadmin.js"
-
+// testing
 export const newAssignment = async (req, res, next) => {
     try {
         const { classId, assignmentName } = req.body
