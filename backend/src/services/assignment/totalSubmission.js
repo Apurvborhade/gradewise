@@ -5,7 +5,7 @@ import { db } from "../../config/firebasedb.js";
 
 export const getTotalSubmissions = async (classId, assignmentId) => {
   const q = query(
-    collection(db, "assignments"),
+    collection(db, "submittedAssignments"),
     where("classId", "==", classId),
     where("assignmentId", "==", assignmentId)
   );

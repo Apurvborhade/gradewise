@@ -1,5 +1,7 @@
+import { doc, getDoc } from "firebase/firestore";
 import { admin, adminDB, auth } from "../config/firebaseadmin.js";
 import AppError from "../utils/AppError.js";
+import { db } from "../config/firebasedb.js";
 
 export const createClassHandler = async (req, res, next) => {
     const { facultyId, className } = req.body;
@@ -100,6 +102,20 @@ export const handleJoinRequest = async (req, res, next) => {
         }
         await classRef.update(updates);
         res.json({ message: `Request ${action}ed` });
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const getStudents = async (req, res, next) => {
+    try {
+        const { classId } = req.params
+
+        const classSnap = await getDoc(doc(db, "classes", classId))
+        const classData = await classSnap.data()
+
+        const studentIds = classData.students ? Object.keys(classData.students) : []
+        res.status(200).json({ studentIds })
     } catch (error) {
         next(error)
     }

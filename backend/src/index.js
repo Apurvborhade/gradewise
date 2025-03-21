@@ -17,7 +17,7 @@ dotenv.config()
 const PORT = process.env.PORT || 8080
 
 app.use(injectToken)
-app.use('/api/grading', decodeFirebaseIdToken, isAuthorized, checkRole(['faculty']), gradingRoutes)
+// app.use('/api/grading', decodeFirebaseIdToken, isAuthorized, checkRole(['faculty']), gradingRoutes)
 app.use('/api/assignment', decodeFirebaseIdToken, isAuthorized, assignmentRoutes)
 app.use('/api/class', decodeFirebaseIdToken, isAuthorized, classRoutes)
 app.use('/api/auth', authRoutes)
