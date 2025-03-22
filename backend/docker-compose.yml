@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  backend:
+    container_name: gradewise_backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"  # Map container port 3000 to local 3000
+    environment:
+      - .env
+    volumes:
+      - .:/src  # Syncs local files with container for live changes
+      - /src/node_modules  # Prevents overwriting node_modules
+    command: ["npm", "run", "start"]  # Start backend with nodemon
+

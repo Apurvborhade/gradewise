@@ -13,9 +13,9 @@ import createGradeDoc from "../services/grading/createGradeDoc.js";
 export async function assignmentValidityChecks(req, res, next) {
     try {
         req.locals = req.locals || {}
-        const { studentId, assignmentId, maxScore, gradingCriteria, classId } = req.body;
+        const { studentId, assignmentId, maxScore, gradingCriteria, classId, assignmentType } = req.body;
 
-        if (!studentId || !assignmentId || !maxScore || !gradingCriteria || !classId) {
+        if (!studentId || !assignmentId || !maxScore || !gradingCriteria || !classId || !assignmentType) {
             throw new AppError("Missing required fields", 400)
         }
 
@@ -26,7 +26,7 @@ export async function assignmentValidityChecks(req, res, next) {
         if (!classSnap.exists()) {
             throw new AppError("This class has been deleted", 400)
         }
-        if(!(studentId in classDocData.students)) {
+        if (!(studentId in classDocData.students)) {
             throw new AppError("User needs to join this class before :(", 400)
         }
         // Check for Assignment exists or not
@@ -35,7 +35,7 @@ export async function assignmentValidityChecks(req, res, next) {
             throw new AppError("This Assignment does not exists", 400)
         }
 
- 
+
         // Check whether student already submitted assignment
         const submittedAssignmentSnap = await getDocs(query(collection(db, "submittedAssignments"), where("studentId", "==", studentId), where("assignmentId", "==", assignmentId)))
 
@@ -64,7 +64,8 @@ export async function plagiarismReport(req, res, next) {
 
         req.locals.assignmentPublicUrl = data
         // Text recognition 
-        const studentAnswer = await detectText(data)
+
+        const studentAnswer = await detectText(data, req.fileType)
         req.locals.studentAnswer = studentAnswer
         // Format for Json
         const escapedText = escapeforJson(studentAnswer)
@@ -91,12 +92,11 @@ export async function plagiarismReport(req, res, next) {
 
 export async function gradingReport(req, res, next) {
     try {
-        const { studentId, assignmentId, maxScore, gradingCriteria, classId } = req.body;
+        const { studentId, assignmentId, maxScore, gradingCriteria, classId, assignmentType } = req.body;
         const studentAnswer = req.locals.studentAnswer
         // AI Grading
-        const { score, feedback } = await gradeAssignment(studentAnswer, maxScore, gradingCriteria);
+        const { score, feedback } = await gradeAssignment(assignmentType, studentAnswer, maxScore, gradingCriteria);
 
-        console.log(score, feedback)
 
         // Store grading result in Firestore
         await createGradeDoc(

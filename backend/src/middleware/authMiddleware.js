@@ -5,14 +5,14 @@ export const decodeFirebaseIdToken = async (req, res, next) => {
     const authorizationHeader = req.header('Authorization')
     const tokenId = authorizationHeader ? authorizationHeader.split(' ')[1] : null
 
-    if (!tokenId) {
-        throw new AppError('You did not specify any idToken for this request')
-    }
+
     try {
         // Use firebase-admin auth to verify the token passed in from the client header.
         // This is token is generated from the firebase client
         // Decoding this token returns the userpayload and all the other token claims you added while creating the custom token
-
+        if (!tokenId) {
+            throw new AppError('You did not specify any idToken for this request')
+        }
         const userPayload = await auth.verifyIdToken(tokenId);
 
         req.user = userPayload;
