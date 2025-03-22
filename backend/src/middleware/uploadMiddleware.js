@@ -39,7 +39,8 @@ export const handleFileUpload = (fieldName) => {
 
 
                 // Generate filepath
-                const filePath = `files/${req.file.originalname}-${Date.now()}`;
+                const filePath = `files/${Date.now()} - ${req.file.originalname}`;
+                
                 const { data, error } = await supabase
                     .storage
                     .from('assignment')
@@ -56,6 +57,7 @@ export const handleFileUpload = (fieldName) => {
                 req.filePath = filePath;
                 req.fileBuffer = req.file.buffer;
                 req.fileData = data
+                req.fileType = req.file.mimetype
                 next();
             } catch (error) {
                 return next(error)

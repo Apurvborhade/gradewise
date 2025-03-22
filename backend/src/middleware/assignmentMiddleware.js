@@ -13,7 +13,7 @@ import createGradeDoc from "../services/grading/createGradeDoc.js";
 export async function assignmentValidityChecks(req, res, next) {
     try {
         req.locals = req.locals || {}
-        const { studentId, assignmentId, maxScore, gradingCriteria, classId ,assignmentType} = req.body;
+        const { studentId, assignmentId, maxScore, gradingCriteria, classId, assignmentType } = req.body;
 
         if (!studentId || !assignmentId || !maxScore || !gradingCriteria || !classId || !assignmentType) {
             throw new AppError("Missing required fields", 400)
@@ -64,7 +64,8 @@ export async function plagiarismReport(req, res, next) {
 
         req.locals.assignmentPublicUrl = data
         // Text recognition 
-        const studentAnswer = await detectText(data)
+
+        const studentAnswer = await detectText(data, req.fileType)
         req.locals.studentAnswer = studentAnswer
         // Format for Json
         const escapedText = escapeforJson(studentAnswer)
