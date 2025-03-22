@@ -1,8 +1,8 @@
 # Use an official Node.js image
-FROM node:22
+FROM node:20
 
 # Install required packages (for `pdftoppm`)
-RUN apt-get update && apt-get install -y poppler-utils
+RUN apt-get update && apt-get install -y --no-install-recommends poppler-utils
 
 
 # Set the working directory
