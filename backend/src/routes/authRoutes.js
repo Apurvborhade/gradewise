@@ -1,7 +1,7 @@
 import express from 'express'
 import AppError from '../utils/AppError.js';
 import { auth } from '../config/firebaseadmin.js';
-import { assignUserRole } from '../utils/auth/userRole.js';
+import { assignUsername, assignUserRole } from '../utils/auth/userRole.js';
 import { signInWithEmailAndPassword, getAuth } from 'firebase/auth'
 import { credAuth } from '../config/firebasedb.js';
 const router = express.Router()
@@ -9,9 +9,9 @@ const router = express.Router()
 
 
 router.post('/signup', async (req, res, next) => {
-    const { email, password, role } = req.body
+    const { email, password, role,username } = req.body
     try {
-        if (!email || !password || !role) {
+        if (!email || !password || !role || !username) {
         console.log(req.body)
             throw new AppError("Missing required fields")
         }
@@ -23,6 +23,7 @@ router.post('/signup', async (req, res, next) => {
 
         //Assign Role
         await assignUserRole(userRecord.uid, role)
+        await assignUsername(userRecord.uid, username)
 
         // Sign in User Instantly
         const userCredential = await signInWithEmailAndPassword(credAuth, email, password)

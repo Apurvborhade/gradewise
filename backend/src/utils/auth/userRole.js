@@ -13,3 +13,12 @@ export async function assignUserRole(uid, role) {
         console.error("Error assigning role:", error);
     }
 }
+export async function assignUsername(uid, username) {
+    try {
+        // Store role in Firestore
+        await adminDB.collection("users").doc(uid).set({ username });
+
+    } catch (error) {
+        console.error("Error assigning role:", error);
+    }
+}

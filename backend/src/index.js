@@ -4,6 +4,7 @@ import gradingRoutes from './routes/gradingRoutes.js'
 import authRoutes from './routes/authRoutes.js'
 import cookieParser from 'cookie-parser'
 import assignmentRoutes from './routes/assignmentRoutes.js'
+import leaderboardRoutes from './routes/leaderBoardRoutes.js'
 import classRoutes from './routes/classRoutes.js'
 import { injectToken } from './utils/auth/injectToken.js'
 import { decodeFirebaseIdToken, isAuthorized, checkRole } from './middleware/authMiddleware.js'
@@ -19,6 +20,7 @@ const PORT = process.env.PORT || 8080
 app.use(injectToken)
 // app.use('/api/grading', decodeFirebaseIdToken, isAuthorized, checkRole(['faculty']), gradingRoutes)
 app.use('/api/assignment', decodeFirebaseIdToken, isAuthorized, assignmentRoutes)
+app.use('/api/leaderboard', decodeFirebaseIdToken, isAuthorized, leaderboardRoutes)
 app.use('/api/class', decodeFirebaseIdToken, isAuthorized, classRoutes)
 app.use('/api/auth', authRoutes)
 

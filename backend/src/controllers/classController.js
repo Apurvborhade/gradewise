@@ -106,7 +106,6 @@ export const handleJoinRequest = async (req, res, next) => {
         next(error)
     }
 }
-
 export const getStudents = async (req, res, next) => {
     try {
         const { classId } = req.params

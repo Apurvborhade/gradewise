@@ -4,6 +4,7 @@ import AppError from "../utils/AppError.js"
 import { getTotalSubmissions } from "../services/assignment/totalSubmission.js"
 import { response } from "express"
 import { admin, adminDB, auth } from "../config/firebaseadmin.js"
+import { studentProgress } from "../services/assignment/studentProgress.js"
 // POST
 export const newAssignment = async (req, res, next) => {
     try {
@@ -78,6 +79,7 @@ export const assignmentHandler = async (req, res, next) => {
         const updates = { [`assignmentRequests.${assignmentId}`]: admin.firestore.FieldValue.delete() };
         if (action === 'accept') {
             updates[`assignments.${assignmentId}`] = { submittedAt: new Date() };
+            await studentProgress(studentId, assignmentId, next)
         } else if (action === 'reject') {
             updates[`rejectedAssignment.${assignmentId}`] = { rejectedAt: new Date() };
         }
