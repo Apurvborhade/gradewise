@@ -1,5 +1,8 @@
+# Use a lightweight Debian-based image
+FROM debian:bookworm-slim
+
 # Use an official Node.js image
-FROM node:20
+FROM node:20-slim
 
 # Install required packages (for `pdftoppm`)
 RUN apt-get update && apt-get install -y --no-install-recommends poppler-utils
