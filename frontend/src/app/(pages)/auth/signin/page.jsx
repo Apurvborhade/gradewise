@@ -1,13 +1,43 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link"; // Import Link from Next.js
 import { FcGoogle } from "react-icons/fc";
+import { useUserSigninMutation } from "@/app/features/users/usersApi";
+import { Loader } from "@/app/components/Loader";
+import { Bounce, toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 export default function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [signin, { isLoading, error, isSuccess, isError }] = useUserSigninMutation()
+  const router = useRouter()
+  const handleFormSubmit = async (e) => {
+    e.preventDefault()
+    const formData = {
+      email, password
+    }
+    await signin(formData)
+  }
+  useEffect(() => {
+    if (isSuccess && !isLoading) {
+      setEmail("")
+      setPassword("")
+      toast.success('User Logged in', {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+      });
+      router.push('/dashboard')
+    }
+  }, [isSuccess, isLoading, error])
   return (
     <>
       <div className="w-full flex min-h-screen">
@@ -18,7 +48,7 @@ export default function Signin() {
         </div>
 
         {/* Right Section */}
-        <div className="w-1/2 flex flex-col justify-center items-center px-14 bg-white">
+        <form onSubmit={handleFormSubmit} className="w-1/2 flex flex-col justify-center items-center px-14 bg-white">
           {/* Header Navigation */}
           <header className="flex w-full justify-end space-x-6 mb-6">
             <Link href="/auth/signup" className="text-lg font-medium text-black">Sign up</Link>
@@ -51,14 +81,17 @@ export default function Signin() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+            {error && (
+              <p className="text-red-600 mt-4">{error.data?.message}</p>
+            )}
           </div>
 
           {/* Forgot Password */}
           <Link href="/forgot-password" className="text-blue-500 text-sm mb-4">Forgot your password?</Link>
 
           {/* Sign-in Button */}
-          <button className="w-[90%] bg-black text-white py-2 rounded-md hover:bg-gray-900 transition">
-            Sign in
+          <button className="flex justify-center items-center w-[90%] bg-black text-white py-2 rounded-md hover:bg-gray-900 transition">
+            {isLoading ? <Loader /> : 'Sign in'}
           </button>
 
           {/* Divider */}
@@ -80,7 +113,7 @@ export default function Signin() {
               Sign up
             </Link>
           </p>
-        </div>
+        </form>
       </div>
     </>
   );

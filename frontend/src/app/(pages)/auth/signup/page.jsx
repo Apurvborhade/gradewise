@@ -1,15 +1,54 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
+import { useUserSignupMutation } from "@/app/features/users/usersApi";
+import { Bounce, toast } from "react-toastify";
+import { Loader } from "@/app/components/Loader";
+import useAuth from "@/app/hooks/useAuth";
+import { useRouter } from "next/navigation";
 
 export default function SignUp() {
     const [role, setRole] = useState("");
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [signup, { isLoading, error, isSuccess }] = useUserSignupMutation()
+    const router = useRouter()
 
+    useEffect(() => {
+        if(isSuccess && !isLoading) {
+            toast.success('User Registered Successfully', {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
+            setEmail("")
+            setPassword("")
+            setRole("")
+            setUsername("")
+            router.push('/dashboard')
+        }
+    }, [isSuccess,isLoading])
+    const handleFormSubmit = async (e) => {
+        e.preventDefault()
+        const formBody = {
+            role,
+            username,
+            email,
+            password
+        }
+
+        await signup(formBody)
+
+    }
     return (
         <div className="flex h-screen w-full bg-gray-50">
             {/* Left Side - Illustration */}
@@ -24,7 +63,8 @@ export default function SignUp() {
             </div>
 
             {/* Right Side - Signup Form */}
-            <div className="w-1/2 bg-white flex flex-col justify-center px-20 shadow-lg">
+
+            <form className="w-1/2 bg-white flex flex-col justify-center px-20 shadow-lg" onSubmit={handleFormSubmit}>
                 <h1 className="text-4xl font-semibold text-black mb-2">GradeWise</h1>
 
                 <p className="text-gray-600 mb-8">Create an account to get started</p>
@@ -38,7 +78,7 @@ export default function SignUp() {
                 >
                     <option value="">Select role</option>
                     <option value="student">Student</option>
-                    <option value="teacher">Teacher</option>
+                    <option value="faculty">Faculty</option>
                 </select>
 
                 {/* Input Fields */}
@@ -69,9 +109,12 @@ export default function SignUp() {
                     onChange={(e) => setPassword(e.target.value)}
                 />
 
+                {error && (
+                    <p className="text-red-600 mb-4">{error.data?.message}</p>
+                )}
                 {/* Sign Up Button */}
-                <button className="w-full bg-blue-500 text-white py-3 rounded-lg mb-4 hover:bg-blue-600 transition-all transform hover:scale-105 active:scale-95">
-                    Sign up
+                <button className="flex justify-center items-center w-full bg-blue-500 text-white py-3 rounded-lg mb-4 hover:bg-blue-600 transition-all transform hover:scale-105 active:scale-95">
+                    {isLoading ? <Loader /> : 'Sign up'}
                 </button>
 
                 <div className="text-center text-gray-500 my-4">Or continue with</div>
@@ -93,7 +136,9 @@ export default function SignUp() {
                         </span>
                     </Link>
                 </p>
-            </div>
+            </form>
+
         </div>
     );
 }
+

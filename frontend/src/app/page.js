@@ -3,14 +3,13 @@ import Link from "next/link";
 import Sidebar from "./components/Sidebar"; // Import Sidebar component
 import Header from "./components/Header"; // Import Header component
 import Footer from "./components/Footer"; // Import Footer component
-import { Provider } from "react-redux";
-import { store } from "./store";
+
 
 
 export default function Home() {
   
   return (
-    <Provider store={store}>
+    
       <div className="flex h-screen bg-[#f0f8ff]"> {/* Light Blue Background */}
 
         {/* Sidebar Component */}
@@ -88,6 +87,6 @@ export default function Home() {
 
         </div>
       </div>
-    </Provider>
+
   );
 }
