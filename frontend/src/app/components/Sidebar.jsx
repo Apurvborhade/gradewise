@@ -1,10 +1,11 @@
 import React from "react";
 import { useRouter } from "next/navigation";
+import { useUserLogoutMutation } from "../features/users/usersApi";
 
 
 const Sidebar = () => {
     const router = useRouter();
-
+    const [logout, { isLoading, isSuccess, error, isError }] = useUserLogoutMutation()
     const menuItems = [
         { name: "Dashboard", path: "/dashboard" },
         { name: "Notifications", path: "/notifications" },
@@ -17,8 +18,7 @@ const Sidebar = () => {
 
     // Logout Function
     const handleLogout = () => {
-        localStorage.removeItem("userToken"); // Example: Remove authentication token
-        sessionStorage.clear();
+        logout()
         router.push("/auth/signin");
     };
 
