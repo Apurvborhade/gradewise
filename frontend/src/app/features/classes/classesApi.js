@@ -4,13 +4,13 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 // Define a service using a base URL and expected endpoints
 export const classesApi = createApi({
     reducerPath: 'classesApi',
-    baseQuery: fetchBaseQuery({ baseUrl: `${process.env.BACKEND_URL}/class` }),
+    baseQuery: fetchBaseQuery({ baseUrl: `${process.env.NEXT_PUBLIC_BACKEND_URL}/class` }),
     tagTypes: ['Class'],
     endpoints: (build) => ({
         //* Querys
 
         // Get Classes
-        
+
         // Get Students Req to Join Class
         getStudentsRequests: build.query({
             query: (classId) => `/${classId}/requests`,

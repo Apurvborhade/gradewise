@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDoc, getDocs } from "firebase/firestore"
+import { addDoc, collection, doc, getDoc, getDocs, query, where } from "firebase/firestore"
 import { db } from "../config/firebasedb.js"
 import AppError from "../utils/AppError.js"
 import { getTotalSubmissions } from "../services/assignment/totalSubmission.js"
@@ -96,8 +96,10 @@ export const assignmentHandler = async (req, res, next) => {
 // GET
 export const getAllAssignmentHandler = async (req, res, next) => {
     try {
+        const { classId } = req.query
         const assignmentsRef = collection(db, "assignments"); // Reference to the collection
-        const querySnapshot = await getDocs(assignmentsRef); // Fetch all documents
+        const q = query(assignmentsRef, where("classId", "==", classId))
+        const querySnapshot = await getDocs(q); // Fetch all documents
 
         const assignments = querySnapshot.docs.map((doc) => ({
             id: doc.id,
