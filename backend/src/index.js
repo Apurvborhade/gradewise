@@ -8,9 +8,14 @@ import leaderboardRoutes from './routes/leaderBoardRoutes.js'
 import classRoutes from './routes/classRoutes.js'
 import { injectToken } from './utils/auth/injectToken.js'
 import { decodeFirebaseIdToken, isAuthorized, checkRole } from './middleware/authMiddleware.js'
+import cors from 'cors'
 const app = express()
 
 // Middleware for parsing JSON requests
+app.use(cors({
+    origin: process.env.FRONTEND_URL,
+    credentials:true
+}))
 app.use(express.json())
 app.use(cookieParser())
 dotenv.config()

@@ -1,6 +1,6 @@
 import React from "react";
 import { useRouter } from "next/navigation";
-import { useGetBackendQuery } from "../features/users/usersApi";
+
 
 const Sidebar = () => {
     const router = useRouter();
@@ -13,6 +13,7 @@ const Sidebar = () => {
         { name: "Assignments", path: "/assignments" },
         { name: "Logout", path: "/auth/signin", isLogout: true }, // Added Logout
     ];
+
 
     // Logout Function
     const handleLogout = () => {
@@ -34,9 +35,8 @@ const Sidebar = () => {
                     {menuItems.map((item, index) => (
                         <li
                             key={index}
-                            className={`cursor-pointer text-lg font-medium transition duration-300 ${
-                                item.isLogout ? "text-red-400 hover:text-red-600" : "hover:text-yellow-400"
-                            }`}
+                            className={`cursor-pointer text-lg font-medium transition duration-300 ${item.isLogout ? "text-red-400 hover:text-red-600" : "hover:text-yellow-400"
+                                }`}
                             onClick={() => (item.isLogout ? handleLogout() : router.push(item.path))}
                         >
                             {item.name}
