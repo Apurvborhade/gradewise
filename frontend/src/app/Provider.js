@@ -7,3 +7,4 @@ import { store } from "./store";
 export function Provider({ children }) {
     return <ReduxProvider store={store}>{children}</ReduxProvider>
 }
+
