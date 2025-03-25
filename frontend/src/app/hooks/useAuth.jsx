@@ -10,7 +10,7 @@ const useAuth = () => {
     useEffect(() => {
         const verifyUser = async () => {
             try {
-                const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/auth/token`, { credentials: "include" });
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/token`, { credentials: "include" });
                 if (!response.ok) throw new Error("Failed to fetch token");
 
                 const { user } = await response.json();
