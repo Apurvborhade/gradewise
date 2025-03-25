@@ -5,7 +5,7 @@ import Sidebar from '@/app/components/Sidebar';
 import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
 import useAuth from '@/app/hooks/useAuth';
-import { useGetClassDetailsQuery, useGetStudentsQuery, useGetStudentsRequestsQuery } from '@/app/features/classes/classesApi';
+import { useGetClassDetailsQuery, useGetStudentsQuery, useGetStudentsRequestsQuery, useHandleJoinRequestsMutation } from '@/app/features/classes/classesApi';
 import { useGetAllAssignmentsQuery, useGetAssignmentAcceptedQuery, useGetAssignmentRequestsQuery, useHandleAssignmentMutation, usePostNewAssignmentMutation } from '@/app/features/assignments/assignmentApi';
 import Link from 'next/link';
 import { Loader } from '@/app/components/Loader';
@@ -44,6 +44,7 @@ const ClassPage = () => {
     })
 
     const [handleAssignment, { isLoading: RequestHandlerLoading, error: RequestHandlerError, isSuccess: RequestHanlderSuccess }] = useHandleAssignmentMutation()
+    const [handleStudentReq, { isLoading: StudentReqLoading, error: StudentReqError, isSuccess: StudentReqSuccess }] = useHandleJoinRequestsMutation()
 
 
     const [newAssignment, { isLoading: postingAssignment, error: assignmentPostError }] = usePostNewAssignmentMutation()
@@ -84,13 +85,13 @@ const ClassPage = () => {
     }, [user]);
 
     // Accept Student Request
-    const acceptStudent = (id) => {
-
+    const approveStudent = (id) => {
+        handleStudentReq({ classId, studentId: id, action: 'accept' })
     };
 
     // Reject Student Request
     const rejectStudent = (id) => {
-        setStudentRequests(studentRequests.filter(req => req.id !== id));
+        handleStudentReq({ classId, studentId: id, action: 'reject' })
     };
 
     // Approve Assignment Request
@@ -144,20 +145,24 @@ const ClassPage = () => {
                         {/* Students Section */}
                         <div className="bg-white p-6 rounded-xl shadow-lg">
                             <h2 className="text-2xl font-semibold mb-4 text-black">👩‍🎓 Students in Class</h2>
-                            <ul className="space-y-3">
-                                {students && students.map((student) => (
-                                    <li key={student.id} className="flex items-center gap-4 p-3 bg-gray-100 rounded-lg">
-                                        <span className="text-lg font-medium text-black">{student.username}</span>
-                                    </li>
-                                ))}
-                            </ul>
+                            {students && (
+                                <ul className="space-y-3">
+                                    {students.length !== 0 ? students.map((student) => (
+                                        <li key={student.id} className="flex items-center gap-4 p-3 bg-gray-100 rounded-lg">
+                                            <span className="text-lg font-medium text-black">{student.username ? student.username : 'Unknown'}</span>
+                                        </li>
+                                    )): (
+                                        <p className="text-gray-600 my-3">No Students in class</p>
+                                    )}
+                                </ul>
+                            )}
                         </div>
 
                         {/* Assignments Section */}
                         <div className="bg-white p-6 rounded-xl shadow-lg">
                             <h2 className="text-2xl font-semibold mb-4 text-black">📑 Assignments</h2>
                             <ul className="space-y-3">
-                                {assignments && assignments.map((assignment) => (
+                                {(assignments && assignments.length !== 0) ? assignments.map((assignment) => (
                                     <li key={assignment.id} className="flex justify-between items-center p-4 bg-gray-100 rounded-lg">
                                         <div>
                                             <p className="text-lg font-medium text-black">{assignment.assignmentName}</p>
@@ -167,7 +172,9 @@ const ClassPage = () => {
                                             View
                                         </Link>
                                     </li>
-                                ))}
+                                )) : (
+                                    <p className='text-gray-600'>No Assignments</p>
+                                )}
                             </ul>
                         </div>
                     </div>
@@ -187,8 +194,8 @@ const ClassPage = () => {
                                             <li key={req.id} className="flex justify-between items-center p-4 bg-white shadow-md rounded-lg hover:shadow-lg transition-shadow duration-300">
                                                 {/* Student Details */}
                                                 <div className="flex flex-col">
-                                                    <span className="font-semibold text-gray-800">{req.studentName}</span>
-                                                    <span className="text-gray-600">ID: {req.studentId}</span>
+                                                    <span className="font-semibold text-gray-800">{req.username ? req.username : 'Unknown'}</span>
+                                                    <span className="text-gray-600">ID: {req.id}</span>
                                                 </div>
 
                                                 {/* Actions */}
@@ -235,7 +242,7 @@ const ClassPage = () => {
                                             return (<li key={assignment.id} className="flex justify-between items-center p-4 bg-white shadow-md rounded-lg hover:shadow-lg transition-shadow duration-300">
                                                 {/* Student & Assignment Details */}
                                                 <div className="flex flex-col">
-                                                    <span className="font-semibold text-gray-800">{assignment.studentId}</span>
+                                                    <span className="font-semibold text-gray-800">{assignment.username}</span>
                                                     <span className="text-gray-600">{assignment.assignmentName}</span>
                                                 </div>
 
@@ -284,7 +291,7 @@ const ClassPage = () => {
                                             <li key={req.id} className="flex justify-between items-center p-4 bg-white shadow-md rounded-lg hover:shadow-lg transition-shadow duration-300">
                                                 {/* Student & Assignment Details */}
                                                 <div className="flex flex-col">
-                                                    <span className="font-semibold text-gray-800">{req.studentId}</span>
+                                                    <span className="font-semibold text-gray-800">{req.username}</span>
                                                     <span className="text-gray-600">{req.assignmentName}</span>
                                                 </div>
 

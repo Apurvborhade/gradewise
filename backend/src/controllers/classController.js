@@ -73,7 +73,7 @@ export const getClassJoinRequest = async (req, res, next) => {
                     : { id: userId, username: "Unknown" };
             })
         );
-        res.json(classDoc.data().requests || {});
+        res.json(usersData);
     } catch (error) {
         next(error)
     }
@@ -95,7 +95,7 @@ export const handleJoinRequest = async (req, res, next) => {
     const { classId, studentId } = req.params;
     const { action } = req.body
     try {
-
+        console.log(classId, studentId, action)
         if (!action) {
             throw new AppError("Action not defined", 400)
         }
@@ -143,7 +143,7 @@ export const getStudents = async (req, res, next) => {
 
         const studentIds = classData.students ? Object.keys(classData.students) : []
         if (studentIds.length === 0) {
-            return res.status(200).json({ students: [] });
+            return res.status(200).json([]);
         }
 
         // Fetch students from 'users' collection

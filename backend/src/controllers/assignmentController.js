@@ -224,13 +224,16 @@ export const getAssignmentRequests = async (req, res, next) => {
             const assignmentData = docSnap.data();
 
             const assignmentId = assignmentData.assignmentId;
+            const studentId = assignmentData.studentId;
 
+            const userSnap = await getDoc(doc(db, "users", studentId));
+            const username = userSnap.exists() ? userSnap.data().username : "Unknown";
 
             // Fetch assignment details
             const assignmentSnap = await getDoc(doc(db, "assignments", assignmentId));
             const assignmentName = assignmentSnap.exists() ? assignmentSnap.data().assignmentName : "Unknown Assignment";
 
-            return { id: docSnap.id, ...assignmentData, assignmentName };
+            return { id: docSnap.id, ...assignmentData, assignmentName,username };
         }))
         res.status(200).json(assignmentRequests)
     } catch (error) {
@@ -250,10 +253,17 @@ export const getAcceptedAssignments = async (req, res, next) => {
         const acceptedAssignments = await Promise.all(acceptedAssignmentIds.map(async (id) => {
             const docSnap = await getDoc(doc(db, "submittedAssignments", id))
             const assignmentData = docSnap.data()
+
+            const studentId = assignmentData.studentId;
+
+            const userSnap = await getDoc(doc(db, "users", studentId));
+            const username = (userSnap.exists() && userSnap.data().username) ? userSnap.data().username : "Unknown";
+            
             if (docSnap.exists()) {
                 return {
                     id: docSnap.id,
-                    ...assignmentData
+                    username,
+                    ...assignmentData,
                 }
             } else return []
 

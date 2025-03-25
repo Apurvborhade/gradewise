@@ -58,10 +58,10 @@ export default function Assignments() {
                         {isSuccess && data?.assignments?.map((assignment) => (
                             <tr key={assignment.id} className="hover:bg-gray-100">
                                 <td className="border border-gray-300 px-4 py-2 text-black">{assignment.className}</td>
-                                <td className="border border-gray-300 px-4 py-2 text-black">{assignment.submissionDate || "N/A"}</td>
+                                {/* <td className="border border-gray-300 px-4 py-2 text-black">{assignment.submissionDate. || "N/A"}</td> */}
                                 <td className="border border-gray-300 px-4 py-2">
-                                    <span className={assignment.plagiarismReport.length !== 0 ? "text-green-600" : "text-red-600"}>
-                                        {assignment.plagiarismReport.length !== 0 ? 'Available' : 'Not Available'}
+                                    <span className={assignment.assignment.plagiarismReport && plagiarismReport.length !== 0 ? "text-green-600" : "text-red-600"}>
+                                        {assignment.plagiarismReport && assignment.plagiarismReport.length !== 0 ? 'Available' : 'Not Available'}
                                     </span>
                                 </td>
                                 <td className="border border-gray-300 px-4 py-2 text-black">{assignment.score}/10</td>

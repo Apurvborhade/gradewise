@@ -8,10 +8,7 @@ const Sidebar = () => {
     const [logout, { isLoading, isSuccess, error, isError }] = useUserLogoutMutation()
     const menuItems = [
         { name: "Dashboard", path: "/dashboard" },
-        { name: "Notifications", path: "/notifications" },
-        { name: "Settings", path: "/settings" },
-        { name: "Calendar", path: "/calendar" },
-        { name: "Assignments", path: "/assignments" },
+        { name: "Classes", path: "/classes" },
         { name: "Logout", path: "/auth/signin", isLogout: true }, // Added Logout
     ];
 
