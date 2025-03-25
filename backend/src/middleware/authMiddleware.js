@@ -5,7 +5,6 @@ export const decodeFirebaseIdToken = async (req, res, next) => {
     const authorizationHeader = req.header('Authorization')
     const tokenId = authorizationHeader ? authorizationHeader.split(' ')[1] : null
 
-
     try {
         // Use firebase-admin auth to verify the token passed in from the client header.
         // This is token is generated from the firebase client

@@ -6,6 +6,7 @@ export function middleware(req) {
 
     if (req.nextUrl.pathname === '/auth/signup' || req.nextUrl.pathname === '/auth/signin') {
         if (token) {
+            console.log("redirect")
             return NextResponse.redirect(new URL("/dashboard", req.url));
         }
     }
@@ -22,5 +23,5 @@ export function middleware(req) {
 
 // Apply middleware only to protected routes
 export const config = {
-    matcher: ["/:path*"], // Protect these pages
+    matcher: ["/dashboard/:path*"], // Protect these pages
 };

@@ -15,7 +15,8 @@ export async function assignmentValidityChecks(req, res, next) {
         req.locals = req.locals || {}
         const { studentId, assignmentId, maxScore, gradingCriteria, classId, assignmentType } = req.body;
 
-        if (!studentId || !assignmentId || !maxScore || !gradingCriteria || !classId || !assignmentType) {
+        if (!studentId || !assignmentId || !maxScore  || !classId || !assignmentType) {
+            console.log(req.body)
             throw new AppError("Missing required fields", 400)
         }
 

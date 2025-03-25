@@ -19,7 +19,7 @@ export const userApi = createApi({
             query: (body) => ({
                 url: '/signin',
                 method: 'POST',
-                body
+                body,
             }),
             providesTags: ['User']
         }),

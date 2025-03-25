@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDoc, getDocs, query, where } from "firebase/firestore"
+import { addDoc, collection, doc, getDoc, getDocs, limit, orderBy, query, startAfter, where } from "firebase/firestore"
 import { db } from "../config/firebasedb.js"
 import AppError from "../utils/AppError.js"
 import { getTotalSubmissions } from "../services/assignment/totalSubmission.js"
@@ -8,8 +8,8 @@ import { studentProgress } from "../services/assignment/studentProgress.js"
 // POST
 export const newAssignment = async (req, res, next) => {
     try {
-        const { classId, assignmentName } = req.body
-        if (!classId || !assignmentName) {
+        const { classId, assignmentName, dueDate, assignmentType } = req.body
+        if (!classId || !assignmentName || !dueDate || !assignmentType) {
             throw new AppError("Missing required data")
         }
         // Check for Class
@@ -19,7 +19,9 @@ export const newAssignment = async (req, res, next) => {
 
         await addDoc(collection(db, 'assignments'), {
             classId,
-            assignmentName
+            assignmentName,
+            dueDate,
+            assignmentType
         })
         res.json({ message: "Assignment Created" })
     } catch (error) {
@@ -30,10 +32,12 @@ export const assignmentRequest = async (req, res, next) => {
     try {
         const { classId } = req.body
         const assignment = JSON.parse(JSON.stringify(req.locals.assignment))
-        console.log(assignment)
         // Create Assignment in 'assignment' collection
         const newClassRef = adminDB.collection('submittedAssignments').doc();
-        await newClassRef.set(assignment);
+        await newClassRef.set({
+            ...assignment,
+            submissionDate: new Date()
+        });
         console.log("assignmentSubmit")
 
         const submittedAssignmentId = newClassRef.id
@@ -94,8 +98,85 @@ export const assignmentHandler = async (req, res, next) => {
 
 
 // GET
+export const getStudentAssignments = async (req, res, next) => {
+    try {
+        const { studentId, page = 1, pageSize = 10 } = req.query;
+        if (!studentId) {
+            throw new AppError("Student ID is required", 400);
+        }
+
+        const assignmentsRef = collection(db, "submittedAssignments");
+        const q = query(
+            assignmentsRef,
+            where("studentId", "==", studentId),
+            // orderBy("submissionDate", "desc"), // Order by latest submission
+            limit(Number(pageSize)),
+            ...(page > 1 ? [startAfter(req.query.lastVisible || null)] : [])
+        );
+
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+            return res.status(200).json({ assignments: [], lastVisible: null });
+        }
+
+        const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1]; // Store last document for next page
+
+        const assignments = await Promise.all(
+            querySnapshot.docs.map(async (docSnap) => {
+                const assignment = docSnap.data();
+
+                // Fetch className using classId
+                const classRef = doc(db, "classes", assignment.classId);
+                const classSnap = await getDoc(classRef);
+                const className = classSnap.exists() ? classSnap.data().className : "Unknown Class";
+
+                // Fetch maxScore using assignmentId
+                const assignmentRef = doc(db, "assignments", assignment.assignmentId);
+                const assignmentSnap = await getDoc(assignmentRef);
+                const maxScore = assignmentSnap.exists() ? assignmentSnap.data().maxScore : 100;
+
+                return {
+                    id: docSnap.id,
+                    ...assignment,
+                    className,
+                    maxScore,
+                };
+            })
+        );
+
+        res.status(200).json({ assignments, lastVisible: lastVisible.id });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const getAssignmentDetails = async (req, res, next) => {
+    try {
+        const { assignmentId } = req.params;
+        if (!assignmentId) {
+            throw new AppError("Cannot find Assignment ID", 400);
+        }
+
+        const assignmentRef = doc(db, "assignments", assignmentId);
+        const assignmentSnap = await getDoc(assignmentRef);
+
+        if (!assignmentSnap.exists()) {
+            return res.status(404).json({ error: "Assignment not found" });
+        }
+        const assignmentData = assignmentSnap.data();
+
+        return res.status(200).json({
+            id: assignmentSnap.id,
+            ...assignmentData,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
 export const getAllAssignmentHandler = async (req, res, next) => {
     try {
+
         const { classId } = req.query
         const assignmentsRef = collection(db, "assignments"); // Reference to the collection
         const q = query(assignmentsRef, where("classId", "==", classId))
@@ -106,7 +187,7 @@ export const getAllAssignmentHandler = async (req, res, next) => {
             ...doc.data(),
         }));
 
-        res.json({ success: true, assignments });
+        res.json(assignments);
     } catch (error) {
         next(error)
     }
@@ -135,30 +216,50 @@ export const getAssignmentRequests = async (req, res, next) => {
         const classData = classSnap.data()
 
         const assignmentRequestsIds = classData.assignmentRequests ? Object.keys(classData.assignmentRequests) : []
+
         const assignmentRequests = await Promise.all(assignmentRequestsIds.map(async (id) => {
             const docSnap = await getDoc(doc(db, "submittedAssignments", id))
-            return docSnap.exists() ? docSnap.data() : null;
+            if (!docSnap.exists()) return null;
+
+            const assignmentData = docSnap.data();
+
+            const assignmentId = assignmentData.assignmentId;
+
+
+            // Fetch assignment details
+            const assignmentSnap = await getDoc(doc(db, "assignments", assignmentId));
+            const assignmentName = assignmentSnap.exists() ? assignmentSnap.data().assignmentName : "Unknown Assignment";
+
+            return { id: docSnap.id, ...assignmentData, assignmentName };
         }))
-        res.status(200).json({ assignmentRequests })
+        res.status(200).json(assignmentRequests)
     } catch (error) {
         next(error)
     }
 }
 export const getAcceptedAssignments = async (req, res, next) => {
     try {
+        console.log("accepeted Assignment")
         const { classId } = req.query
-
         const classSnap = await getDoc(doc(db, "classes", classId))
         const classData = classSnap.data()
 
         const acceptedAssignmentIds = classData.assignments ? Object.keys(classData.assignments) : []
 
+        console.log("accepted", acceptedAssignmentIds)
         const acceptedAssignments = await Promise.all(acceptedAssignmentIds.map(async (id) => {
             const docSnap = await getDoc(doc(db, "submittedAssignments", id))
-            return docSnap.exists() ? docSnap.data() : null;
+            const assignmentData = docSnap.data()
+            if (docSnap.exists()) {
+                return {
+                    id: docSnap.id,
+                    ...assignmentData
+                }
+            } else return []
+
         }))
 
-        res.status(200).json({ acceptedAssignments })
+        res.status(200).json(acceptedAssignments)
     } catch (error) {
         next(error)
     }
