@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Link from "next/link"; // Import Link from Next.js
 import { FcGoogle } from "react-icons/fc";
 import { useUserSigninMutation } from "@/app/features/users/usersApi";
@@ -45,7 +45,7 @@ export default function Signin() {
     }
   }, [isSuccess, isLoading, error])
   return (
-    <>
+    <Suspense fallback={<div>Loading...</div>}>
       <div className="w-full flex min-h-screen">
         {/* Left Section */}
         <div className="w-1/2 bg-green-400 flex flex-col justify-center items-center p-10">
@@ -121,6 +121,6 @@ export default function Signin() {
           </p>
         </form>
       </div>
-    </>
+    </Suspense>
   );
 }
