@@ -8,7 +8,7 @@ import { Loader } from "@/app/components/Loader";
 import { Bounce, toast } from "react-toastify";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function Signin() {
+function SigninForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [signin, { isLoading, error, isSuccess, isError }] = useUserSigninMutation()
@@ -45,7 +45,7 @@ export default function Signin() {
     }
   }, [isSuccess, isLoading, error])
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <>
       <div className="w-full flex min-h-screen">
         {/* Left Section */}
         <div className="w-1/2 bg-green-400 flex flex-col justify-center items-center p-10">
@@ -121,6 +121,14 @@ export default function Signin() {
           </p>
         </form>
       </div>
+    </>
+  );
+}
+
+export default function Signin() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SigninForm />
     </Suspense>
   );
 }
