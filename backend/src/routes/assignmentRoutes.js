@@ -1,5 +1,5 @@
 import express from 'express'
-import { assignmentHandler, assignmentRequest, getAcceptedAssignments, getAllAssignmentHandler, getAssignmentDetails, getAssignmentRequests, getRejectedAssignments, getStudentAssignments, newAssignment, totalSubmissionHandler } from '../controllers/assignmentController.js'
+import { assignmentHandler, assignmentRequest, getAcceptedAssignments, getAllAssignmentHandler, getAssignmentDetails, getAssignmentRequests, getRejectedAssignments, getStudentAssignments, getSubmittedAssignmentDetails, newAssignment, totalSubmissionHandler } from '../controllers/assignmentController.js'
 import { handleFileUpload } from '../middleware/uploadMiddleware.js'
 import { assignmentValidityChecks, gradingReport, plagiarismReport } from '../middleware/assignmentMiddleware.js'
 import { checkRole } from '../middleware/authMiddleware.js'
@@ -10,6 +10,8 @@ const router = express.Router()
 router.get("/", getAllAssignmentHandler)
 // Get Assignment details
 router.get("/assignment-details/:assignmentId", getAssignmentDetails)
+// Get Submitted Assignment details
+router.get("/submittedAssignment/:assignmentId", getSubmittedAssignmentDetails)
 
 // Get All assignment of a student
 router.get("/student-assignments", getStudentAssignments)
