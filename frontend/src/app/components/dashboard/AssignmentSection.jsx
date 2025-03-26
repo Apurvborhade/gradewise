@@ -63,20 +63,26 @@ export default function Assignments() {
                                 <td className="border border-gray-300 px-4 py-2 text-black">{assignment.className}</td>
                                 {/* <td className="border border-gray-300 px-4 py-2 text-black">{assignment.submissionDate. || "N/A"}</td> */}
                                 <td className="border border-gray-300 px-4 py-2">
-                                    <span className={assignment.assignment.plagiarismReport && plagiarismReport.length !== 0 ? "text-green-600" : "text-red-600"}>
+                                    <span className={assignment.plagiarismReport && assignment.plagiarismReport.length !== 0 ? "text-green-600" : "text-red-600"}>
                                         {assignment.plagiarismReport && assignment.plagiarismReport.length !== 0 ? 'Available' : 'Not Available'}
                                     </span>
                                 </td>
+                                <td className="border border-gray-300 px-4 py-2">
+                                    {assignment.plagiarismReport && assignment.plagiarismReport.length > 0 ? (
+                                        <span className={Math.floor(Math.max(...assignment.plagiarismReport.map(report => report.score)) * 100) > 60 ? 'text-red-600' : `text-green-600`}>
+                                             {Math.floor(Math.max(...assignment.plagiarismReport.map(report => report.score)) * 100)}%
+                                        </span>
+                                    ) : (
+                                        <span className="text-green-600">0 %</span>
+                                    )}
+                                </td>
                                 <td className="border border-gray-300 px-4 py-2 text-black">{assignment.score}/10</td>
-                                <td className="border border-gray-300 px-4 py-2 flex gap-2">
+                                <td className="border border-gray-300 px-4 py-2 flex gap-2 flex justify-center items-center">
                                     <Link href={`/submittedAssignment/${assignment.id}`}>
-                                        <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
+                                        <button className="bg-black text-white px-4 py-2 rounded-lg transition">
                                             View Assignment
                                         </button>
                                     </Link>
-                                    <button className="bg-black text-white px-4 py-2 rounded-lg transition">
-                                        View Report
-                                    </button>
                                 </td>
                             </tr>
                         ))}

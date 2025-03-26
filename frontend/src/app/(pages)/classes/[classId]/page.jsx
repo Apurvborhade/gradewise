@@ -151,7 +151,7 @@ const ClassPage = () => {
                                         <li key={student.id} className="flex items-center gap-4 p-3 bg-gray-100 rounded-lg">
                                             <span className="text-lg font-medium text-black">{student.username ? student.username : 'Unknown'}</span>
                                         </li>
-                                    )): (
+                                    )) : (
                                         <p className="text-gray-600 my-3">No Students in class</p>
                                     )}
                                 </ul>
@@ -186,117 +186,67 @@ const ClassPage = () => {
                             <h2 className="text-2xl font-semibold text-black mb-4">👨‍🏫 Faculty Panel</h2>
 
                             {/* Manage Student Requests */}
-                            <div className="mb-6">
-                                <h3 className="text-xl font-semibold text-black mb-2">📩 Student Join Requests</h3>
-                                {studentRequests && studentRequests.length > 0 ? (
-                                    <ul className="space-y-3">
-                                        {studentRequests.map((req) => (
-                                            <li key={req.id} className="flex justify-between items-center p-4 bg-white shadow-md rounded-lg hover:shadow-lg transition-shadow duration-300">
-                                                {/* Student Details */}
-                                                <div className="flex flex-col">
-                                                    <span className="font-semibold text-gray-800">{req.username ? req.username : 'Unknown'}</span>
-                                                    <span className="text-gray-600">ID: {req.id}</span>
-                                                </div>
-
-                                                {/* Actions */}
-                                                <div className="flex items-center space-x-4">
-                                                    <button
-                                                        onClick={() => approveStudent(req.id)}
-                                                        className="px-4 py-1 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
-                                                    >
-                                                        Approve
-                                                    </button>
-                                                    <button
-                                                        onClick={() => rejectStudent(req.id)}
-                                                        className="px-4 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
-                                                    >
-                                                        Reject
-                                                    </button>
-                                                </div>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                ) : (
-                                    <p className="text-gray-500 text-center">No student join requests at the moment.</p>
-                                )}
-                            </div>
-
-                            {/* Approved Assignments Section */}
-                            <div className="mb-6">
-                                <h3 className="text-xl font-semibold text-black mb-2">✅ Approved Assignments</h3>
-                                {approvedAssignments && approvedAssignments.length > 0 ? (
-                                    <ul className="space-y-3">
-                                        {approvedAssignments.map((assignment) => {
-                                            const plagiarismScores = assignment.plagiarismReport?.map(report => report.score) || [];
-
-                                            // Get the highest plagiarism score
-                                            const highestScore = plagiarismScores.length > 0 ? Math.max(...plagiarismScores) : 0;
-                                            const plagiarismPercentage = (highestScore * 100).toFixed(2);
-
-                                            // Define plagiarism score color
-                                            let scoreColor = "text-green-600"; // Low risk
-                                            if (highestScore > 0.5) scoreColor = "text-orange-500"; // Medium risk
-                                            if (highestScore > 0.8) scoreColor = "text-red-600"; // High risk
-
-
-                                            return (<li key={assignment.id} className="flex justify-between items-center p-4 bg-white shadow-md rounded-lg hover:shadow-lg transition-shadow duration-300">
-                                                {/* Student & Assignment Details */}
-                                                <div className="flex flex-col">
-                                                    <span className="font-semibold text-gray-800">{assignment.username}</span>
-                                                    <span className="text-gray-600">{assignment.assignmentName}</span>
-                                                </div>
-
-                                                {plagiarismScores.length > 0 ? (
-                                                    <div className="flex items-center space-x-2">
-                                                        <span className="text-sm text-gray-500">Plagiarism Score:</span>
-                                                        <span className={`text-sm font-semibold ${scoreColor}`}>
-                                                            {plagiarismPercentage}%
-                                                        </span>
-                                                    </div>
-                                                ) : (
-                                                    <div className="flex items-center space-x-2">
-                                                        <span className="text-sm text-gray-500">Plagiarism Score:</span>
-                                                        <span className={`text-sm font-semibold ${scoreColor}`}>
-                                                            0%
-                                                        </span>
+                            <div className='flex flex-col gap-10'>
+                                <div className="mb-6">
+                                    <h3 className="text-xl font-semibold text-black mb-2">📩 Student Join Requests</h3>
+                                    {studentRequests && studentRequests.length > 0 ? (
+                                        <ul className="space-y-3">
+                                            {studentRequests.map((req) => (
+                                                <li key={req.id} className="flex justify-between items-center p-4 bg-white shadow-md rounded-lg hover:shadow-lg transition-shadow duration-300">
+                                                    {/* Student Details */}
+                                                    <div className="flex flex-col">
+                                                        <span className="font-semibold text-gray-800">{req.username ? req.username : 'Unknown'}</span>
+                                                        <span className="text-gray-600">ID: {req.id}</span>
                                                     </div>
 
-                                                )}
-                                            </li>)
-                                        })}
-                                    </ul>
-                                ) : (
-                                    <p className="text-gray-500 text-center">No assignments have been approved yet.</p>
-                                )}
-                            </div>
+                                                    {/* Actions */}
+                                                    <div className="flex items-center space-x-4">
+                                                        <button
+                                                            onClick={() => approveStudent(req.id)}
+                                                            className="px-4 py-1 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
+                                                        >
+                                                            Approve
+                                                        </button>
+                                                        <button
+                                                            onClick={() => rejectStudent(req.id)}
+                                                            className="px-4 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                                                        >
+                                                            Reject
+                                                        </button>
+                                                    </div>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <p className="text-gray-500 text-center">No student join requests at the moment.</p>
+                                    )}
+                                </div>
 
-                            {/* Approve Assignment Requests */}
-                            <div className="mb-6">
-                                <h3 className="text-xl font-semibold text-black mb-2">✅ Approve Assignment Requests</h3>
-                                <ul className="space-y-3">
-                                    {assignmentRequests && assignmentRequests.map((req) => {
-                                        // Extract plagiarism scores
-                                        const plagiarismScores = req.plagiarismReport?.map(report => report.score) || [];
+                                {/* Approved Assignments Section */}
+                                <div className="mb-6">
+                                    <h3 className="text-xl font-semibold text-black mb-2">✅ Approved Assignments</h3>
+                                    {approvedAssignments && approvedAssignments.length > 0 ? (
+                                        <ul className="space-y-3">
+                                            {approvedAssignments.map((assignment) => {
+                                                const plagiarismScores = assignment.plagiarismReport?.map(report => report.score) || [];
 
-                                        // Get the highest plagiarism score
-                                        const highestScore = plagiarismScores.length > 0 ? Math.max(...plagiarismScores) : 0;
-                                        const plagiarismPercentage = (highestScore * 100).toFixed(2);
+                                                // Get the highest plagiarism score
+                                                const highestScore = plagiarismScores.length > 0 ? Math.max(...plagiarismScores) : 0;
+                                                const plagiarismPercentage = (highestScore * 100).toFixed(2);
 
-                                        // Define plagiarism score color
-                                        let scoreColor = "text-green-600"; // Low risk
-                                        if (highestScore > 0.5) scoreColor = "text-orange-500"; // Medium risk
-                                        if (highestScore > 0.8) scoreColor = "text-red-600"; // High risk
+                                                // Define plagiarism score color
+                                                let scoreColor = "text-green-600"; // Low risk
+                                                if (highestScore > 0.5) scoreColor = "text-orange-500"; // Medium risk
+                                                if (highestScore > 0.8) scoreColor = "text-red-600"; // High risk
 
-                                        return (
-                                            <li key={req.id} className="flex justify-between items-center p-4 bg-white shadow-md rounded-lg hover:shadow-lg transition-shadow duration-300">
-                                                {/* Student & Assignment Details */}
-                                                <div className="flex flex-col">
-                                                    <span className="font-semibold text-gray-800">{req.username}</span>
-                                                    <span className="text-gray-600">{req.assignmentName}</span>
-                                                </div>
 
-                                                {/* Plagiarism Score & Actions */}
-                                                <div className="flex items-center space-x-6">
+                                                return (<li key={assignment.id} className="flex justify-between items-center p-4 bg-white shadow-md rounded-lg hover:shadow-lg transition-shadow duration-300">
+                                                    {/* Student & Assignment Details */}
+                                                    <div className="flex flex-col">
+                                                        <span className="font-semibold text-gray-800">{assignment.username}</span>
+                                                        <span className="text-gray-600">{assignment.assignmentName}</span>
+                                                    </div>
+
                                                     {plagiarismScores.length > 0 ? (
                                                         <div className="flex items-center space-x-2">
                                                             <span className="text-sm text-gray-500">Plagiarism Score:</span>
@@ -313,25 +263,81 @@ const ClassPage = () => {
                                                         </div>
 
                                                     )}
-                                                    <button
-                                                        onClick={() => approveAssignment(req.id)}
-                                                        className="px-4 py-1 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
-                                                    >
-                                                        Approve
-                                                    </button>
-                                                    <button
-                                                        onClick={() => rejectAssignment(req.id)}
-                                                        className="px-4 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
-                                                    >
-                                                        Reject
-                                                    </button>
-                                                </div>
-                                            </li>
-                                        );
-                                    })}
+                                                </li>)
+                                            })}
+                                        </ul>
+                                    ) : (
+                                        <p className="text-gray-500 text-center">No assignments have been approved yet.</p>
+                                    )}
+                                </div>
+
+                                {/* Approve Assignment Requests */}
+                                <div className="mb-6">
+                                    <h3 className="text-xl font-semibold text-black mb-2">✅ Approve Assignment Requests</h3>
+                                    {assignmentRequests && assignmentRequests.length > 0 ? (
+                                        <ul className="space-y-3">
+                                            {assignmentRequests && assignmentRequests.map((req) => {
+                                                // Extract plagiarism scores
+                                                const plagiarismScores = req.plagiarismReport?.map(report => report.score) || [];
+
+                                                // Get the highest plagiarism score
+                                                const highestScore = plagiarismScores.length > 0 ? Math.max(...plagiarismScores) : 0;
+                                                const plagiarismPercentage = (highestScore * 100).toFixed(2);
+
+                                                // Define plagiarism score color
+                                                let scoreColor = "text-green-600"; // Low risk
+                                                if (highestScore > 0.5) scoreColor = "text-orange-500"; // Medium risk
+                                                if (highestScore > 0.8) scoreColor = "text-red-600"; // High risk
+
+                                                return (
+                                                    <li key={req.id} className="flex justify-between items-center p-4 bg-white shadow-md rounded-lg hover:shadow-lg transition-shadow duration-300">
+                                                        {/* Student & Assignment Details */}
+                                                        <div className="flex flex-col">
+                                                            <span className="font-semibold text-gray-800">{req.username}</span>
+                                                            <span className="text-gray-600">{req.assignmentName}</span>
+                                                        </div>
+
+                                                        {/* Plagiarism Score & Actions */}
+                                                        <div className="flex items-center space-x-6">
+                                                            {plagiarismScores.length > 0 ? (
+                                                                <div className="flex items-center space-x-2">
+                                                                    <span className="text-sm text-gray-500">Plagiarism Score:</span>
+                                                                    <span className={`text-sm font-semibold ${scoreColor}`}>
+                                                                        {plagiarismPercentage}%
+                                                                    </span>
+                                                                </div>
+                                                            ) : (
+                                                                <div className="flex items-center space-x-2">
+                                                                    <span className="text-sm text-gray-500">Plagiarism Score:</span>
+                                                                    <span className={`text-sm font-semibold ${scoreColor}`}>
+                                                                        0%
+                                                                    </span>
+                                                                </div>
+
+                                                            )}
+                                                            <button
+                                                                onClick={() => approveAssignment(req.id)}
+                                                                className="px-4 py-1 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
+                                                            >
+                                                                Approve
+                                                            </button>
+                                                            <button
+                                                                onClick={() => rejectAssignment(req.id)}
+                                                                className="px-4 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                                                            >
+                                                                Reject
+                                                            </button>
+                                                        </div>
+                                                    </li>
+                                                );
+                                            })}
 
 
-                                </ul>
+                                        </ul>
+                                    ) : (
+                                        <p className="text-gray-500 text-center">No assignment requests at the moment.</p>
+                                    )}
+                                </div>
                             </div>
 
                             {/* Add New Assignments */}
@@ -342,7 +348,7 @@ const ClassPage = () => {
                                 <select
                                     value={assignmentType}
                                     onChange={(e) => setAssignmentType(e.target.value)}
-                                    className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-4"
                                     required
                                 >
                                     <option value="" disabled>Select Assignment Type</option>
