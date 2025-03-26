@@ -1,17 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Link from "next/link"; // Import Link from Next.js
 import { FcGoogle } from "react-icons/fc";
 import { useUserSigninMutation } from "@/app/features/users/usersApi";
 import { Loader } from "@/app/components/Loader";
 import { Bounce, toast } from "react-toastify";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
-export default function Signin() {
+function SigninForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [signin, { isLoading, error, isSuccess, isError }] = useUserSigninMutation()
+  const searchParams = useSearchParams()
+  const redirectUrl = searchParams.get('redirectUrl')
   const router = useRouter()
   const handleFormSubmit = async (e) => {
     e.preventDefault()
@@ -35,7 +37,11 @@ export default function Signin() {
         theme: "dark",
         transition: Bounce,
       });
-      router.push('/dashboard')
+      if (redirectUrl) {
+        router.push(redirectUrl)
+      } else {
+        router.push('/dashboard')
+      }
     }
   }, [isSuccess, isLoading, error])
   return (
@@ -116,5 +122,13 @@ export default function Signin() {
         </form>
       </div>
     </>
+  );
+}
+
+export default function Signin() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SigninForm />
+    </Suspense>
   );
 }

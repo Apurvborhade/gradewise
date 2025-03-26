@@ -43,6 +43,22 @@ router.post('/signup', async (req, res, next) => {
         next(error)
     }
 })
+
+router.get('/token', async (req, res, next) => {
+    try {
+
+        const token = req.cookies.token
+
+        if (!token) {
+            throw new AppError("User Not logged in", 400)
+        }
+        const userPayload = await auth.verifyIdToken(token);
+
+        res.status(200).json({ user:userPayload })
+    } catch (error) {
+        next(error)
+    }
+})
 router.post('/signin', async (req, res, next) => {
     const { email, password } = req.body
     try {

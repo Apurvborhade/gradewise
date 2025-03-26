@@ -4,13 +4,16 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 // Define a service using a base URL and expected endpoints
 export const classesApi = createApi({
     reducerPath: 'classesApi',
-    baseQuery: fetchBaseQuery({ baseUrl: `${process.env.NEXT_PUBLIC_BACKEND_URL}/class` }),
+    baseQuery: fetchBaseQuery({ baseUrl: `${process.env.NEXT_PUBLIC_BACKEND_URL}/class`, credentials: 'include' }),
     tagTypes: ['Class'],
     endpoints: (build) => ({
         //* Querys
 
-        // Get Classes
-
+        // Get Class Details
+        getClassDetails: build.query({
+            query: (classId) => `/${classId}`,
+            providesTags: ['Class']
+        }),
         // Get Students Req to Join Class
         getStudentsRequests: build.query({
             query: (classId) => `/${classId}/requests`,
@@ -19,6 +22,11 @@ export const classesApi = createApi({
         // Get Students in class
         getStudents: build.query({
             query: (classId) => `/${classId}/students`,
+            providesTags: ['Class']
+        }),
+        // Get Classes in class
+        getClasses: build.query({
+            query: ({ userId, limit }) => `/${userId}/classes?limit=${limit}`,
             providesTags: ['Class']
         }),
 
@@ -56,4 +64,4 @@ export const classesApi = createApi({
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useCreateClassMutation, useGetStudentsQuery, useGetStudentsRequestsQuery, useHandleJoinRequestsMutation, useJoinClassMutation } = classesApi
+export const { useCreateClassMutation, useGetStudentsQuery, useGetStudentsRequestsQuery, useHandleJoinRequestsMutation, useJoinClassMutation, useGetClassesQuery,useGetClassDetailsQuery } = classesApi

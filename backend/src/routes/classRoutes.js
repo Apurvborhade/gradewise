@@ -1,10 +1,14 @@
 import express from 'express'
-import { createClassHandler, getClassJoinRequest, getStudents, handleJoinRequest, sendJoinRequest } from '../controllers/classController.js'
+import { createClassHandler, getClassDetails, getClasses, getClassJoinRequest, getStudents, handleJoinRequest, sendJoinRequest } from '../controllers/classController.js'
 import { checkRole } from '../middleware/authMiddleware.js'
 const router = express.Router()
 
+// Get Students Classes
+router.get("/:userId/classes", getClasses)
 // Get Students Req to Join Class
 router.get("/:classId/requests", getClassJoinRequest)
+// Get Class Details
+router.get("/:classId", getClassDetails)
 
 // Get Students in class
 router.get("/:classId/students", getStudents)
