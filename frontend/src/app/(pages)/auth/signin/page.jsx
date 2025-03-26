@@ -22,13 +22,13 @@ function SigninForm() {
     }
     const response = await signin(formData).unwrap()
 
-    // if (response?.token) {
-    //   // ✅ Manually set cookie in the browser
-    //   document.cookie = `token=${response.token}; path=/; Secure; SameSite=None`;
-    //   console.log('Cookie set manually:', document.cookie);
-    // } else {
-    //   console.error('Token not found in response:', response);
-    // }
+    if (response?.token) {
+      // ✅ Manually set cookie in the browser
+      document.cookie = `token=${response.token}; path=/; Secure; SameSite=None`;
+      console.log('Cookie set manually:', document.cookie);
+    } else {
+      console.error('Token not found in response:', response);
+    }
 
   }
   useEffect(() => {
