@@ -36,8 +36,6 @@ router.post('/signup', async (req, res, next) => {
             secure: true,
             sameSite: 'none',
             maxAge: 3600000,
-            path: "/",
-
         })
         // Response 
         res.status(201).json({ message: "User created & role assigned", uid: userRecord.uid, role, userRecord, token: idToken });
@@ -79,14 +77,8 @@ router.post('/signin', async (req, res, next) => {
             secure: true,
             sameSite: 'none',
             maxAge: 3600000,
-            domain:"consistent-margit-apurva-a4baae44.koyeb.app",
-            path: '/',
         })
-        res.setHeader('Referrer-Policy', 'no-referrer-when-downgrade'); // ✅ Allows sending referrer info
-        res.setHeader('Access-Control-Allow-Origin', process.env.FRONTEND_URL);
-        res.setHeader('Access-Control-Allow-Credentials', 'true');
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, *');
+        
         // Response 
         res.status(201).json({ message: "User created & role assigned", uid: userCredential.uid, userCredential, token: idToken });
     } catch (error) {
