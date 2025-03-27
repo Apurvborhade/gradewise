@@ -42,7 +42,8 @@ export const classesApi = createApi({
                 url: `/create`,
                 method: 'POST',
                 body
-            })
+            }),
+            invalidatesTags:['Class']
         }),
         // Join Class (Student)
         joinClass: build.mutation({
