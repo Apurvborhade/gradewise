@@ -66,6 +66,7 @@ router.get('/token', async (req, res, next) => {
         // Add xp to userPayload
         const finalUser = {
             xp: userData.xp || 0,
+            username:userData.username ? userData.username : 'Unkown',
             ...userPayload,
         };
         res.status(200).json({ user: finalUser })

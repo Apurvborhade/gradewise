@@ -143,7 +143,7 @@ export default function Dashboard() {
                                                                 className="aspect-square object-cover"
                                                             /> */}
                                                         </div>
-                                                        <span className="truncate">{student.username ? student.username : 'Unkwon'}</span>
+                                                        <span className="truncate">{student.username ? student.username : 'Unknown'}</span>
                                                     </div>
                                                     <div className="col-span-4 text-right font-semibold">{student.xp}</div>
                                                 </div>
@@ -211,28 +211,7 @@ export default function Dashboard() {
                                 <div className="card-header">
                                     <h3 className="card-title font-bold text-2xl">Leaderboard</h3>
                                 </div>
-                                <div className="card-content">
-                                    <div className="flex justify-center mb-4">
-                                        <div className="relative h-32 w-32">
-                                            <div className="absolute inset-0 flex items-center justify-center">
-                                                <span className="text-2xl font-bold text-blue-500">{user ? user.xp : 0}</span>
-                                            </div>
-                                            <svg className="h-full w-full" viewBox="0 0 100 100">
-                                                <circle cx="50" cy="50" r="40" fill="none" stroke="#e2e8f0" strokeWidth="10" />
-                                                <circle
-                                                    cx="50"
-                                                    cy="50"
-                                                    r="40"
-                                                    fill="none"
-                                                    stroke="#3b82f6"
-                                                    strokeWidth="10"
-                                                    strokeDasharray="251.2"
-                                                    strokeDashoffset={user ? `${user.xp}` : '30'}
-                                                    transform="rotate(-90 50 50)"
-                                                />
-                                            </svg>
-                                        </div>
-                                    </div>
+                                <div className="card-content mt-5">
 
                                     <div className="space-y-2">
                                         <div className="grid grid-cols-12 text-sm font-medium pb-1">
@@ -248,15 +227,15 @@ export default function Dashboard() {
                                             >
                                                 <div className="col-span-1 font-medium">{index + 1}</div>
                                                 <div className="col-span-7 flex items-center gap-2">
-                                                    <div className="relative flex h-6 w-6 shrink-0 overflow-hidden rounded-full">
+                                                    {/* <div className="relative flex h-6 w-6 shrink-0 overflow-hidden rounded-full"> */}
                                                         {/* <Image
                                                                 src={student.avatar || "/placeholder.svg"}
                                                                 alt={student.name}
                                                                 fill
                                                                 className="aspect-square object-cover"
                                                             /> */}
-                                                    </div>
-                                                    <span className="truncate">{student.username ? student.username : 'Unkwon'}</span>
+                                                    {/* </div> */}
+                                                    <span className="truncate">{student.username ? student.username : 'Unknown'}</span>
                                                 </div>
                                                 <div className="col-span-4 text-right font-semibold">{student.xp}</div>
                                             </div>

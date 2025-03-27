@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import useAuth from "../hooks/useAuth";
 import { Menu, X } from "lucide-react";
 import { useUserLogoutMutation } from "../features/users/usersApi";
@@ -14,6 +14,9 @@ const Header = () => {
         logout();
         router.push("/auth/signin");
     };
+    useEffect(() => {
+        console.log(user)
+    },[user])
     return (
         <header className="w-full bg-white shadow-md py-4 px-6 flex items-center justify-between">
             {/* Dashboard Title */}
