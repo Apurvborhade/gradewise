@@ -228,7 +228,7 @@ export default function Dashboard() {
                                                 <div className="col-span-1 font-medium">{index + 1}</div>
                                                 <div className="col-span-7 flex items-center gap-2">
                                                     {/* <div className="relative flex h-6 w-6 shrink-0 overflow-hidden rounded-full"> */}
-                                                        {/* <Image
+                                                    {/* <Image
                                                                 src={student.avatar || "/placeholder.svg"}
                                                                 alt={student.name}
                                                                 fill
@@ -244,23 +244,39 @@ export default function Dashboard() {
                                 </div>
                             </div>
 
-                            {/* <Link href="/scores">
-                                    <div className="bg-white p-6 shadow-md rounded-xl border border-gray-300 cursor-pointer hover:shadow-lg transition-shadow duration-300">
-                                        <h2 className="text-2xl font-bold text-gray-800">Scores</h2>
-                                        <p className="text-gray-500">Weekly performance graph</p>
-                                    </div>
-                                </Link> */}
+                            <div className="bg-white p-6 shadow-md rounded-xl border border-gray-300 text-black">
+                                <h2 className="text-2xl font-bold text-gray-800 mb-4">Create a Class</h2>
+                                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                                    <input
+                                        type="text"
+                                        placeholder="Enter class name"
+                                        value={className}
+                                        onChange={(e) => setClassName(e.target.value)}
+                                        className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                        required
+                                    />
+
+                                    <button
+                                        type="submit"
+                                        className="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700 transition duration-300 flex justify-center items-center"
+                                    >
+                                        {classCreating ? <Loader /> : 'Create Class'}
+
+                                    </button>
+                                </form>
+                            </div>
                         </div>
-
-
                     </div>
+
 
                 </div>
 
-                {/* Footer Component */}
-                <Footer />
             </div>
+
+            {/* Footer Component */}
+            <Footer />
         </div>
+        </div >
     }
 
 }
