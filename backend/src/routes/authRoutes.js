@@ -3,7 +3,8 @@ import AppError from '../utils/AppError.js';
 import { auth } from '../config/firebaseadmin.js';
 import { assignUsername, assignUserRole } from '../utils/auth/userRole.js';
 import { signInWithEmailAndPassword, getAuth } from 'firebase/auth'
-import { credAuth } from '../config/firebasedb.js';
+import { credAuth, db } from '../config/firebasedb.js';
+import { doc, getDoc } from 'firebase/firestore';
 const router = express.Router()
 
 
@@ -53,8 +54,21 @@ router.get('/token', async (req, res, next) => {
             throw new AppError("User Not logged in", 400)
         }
         const userPayload = await auth.verifyIdToken(token);
+        const userId = userPayload.user_id;
 
-        res.status(200).json({ user: userPayload })
+        // Get user data from 'users' collection
+        const userSnap = await getDoc(doc(db, "users", userId));
+        if (!userSnap.exists()) {
+            throw new AppError("User not found in database", 404);
+        }
+        const userData = userSnap.data();
+
+        // Add xp to userPayload
+        const finalUser = {
+            xp: userData.xp || 0,
+            ...userPayload,
+        };
+        res.status(200).json({ user: finalUser })
     } catch (error) {
         next(error)
     }
@@ -78,7 +92,7 @@ router.post('/signin', async (req, res, next) => {
             sameSite: 'none',
             maxAge: 3600000,
         })
-        
+
         // Response 
         res.status(201).json({ message: "User created & role assigned", uid: userCredential.uid, userCredential, token: idToken });
     } catch (error) {

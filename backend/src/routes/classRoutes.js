@@ -1,5 +1,5 @@
 import express from 'express'
-import { createClassHandler, getClassDetails, getClasses, getClassJoinRequest, getStudents, handleJoinRequest, sendJoinRequest } from '../controllers/classController.js'
+import { createClassHandler, getClassDetails, getClasses, getClassJoinRequest, getLeaderBoard, getStudents, handleJoinRequest, sendJoinRequest } from '../controllers/classController.js'
 import { checkRole } from '../middleware/authMiddleware.js'
 const router = express.Router()
 
@@ -7,11 +7,14 @@ const router = express.Router()
 router.get("/:userId/classes", getClasses)
 // Get Students Req to Join Class
 router.get("/:classId/requests", getClassJoinRequest)
+// Get Students in class
+router.get("/leaderboard", getLeaderBoard)
 // Get Class Details
 router.get("/:classId", getClassDetails)
 
 // Get Students in class
 router.get("/:classId/students", getStudents)
+
 
 // Create Class (Faculty)
 router.post("/create", checkRole(['faculty']), createClassHandler)

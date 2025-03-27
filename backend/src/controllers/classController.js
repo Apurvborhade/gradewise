@@ -161,6 +161,34 @@ export const getStudents = async (req, res, next) => {
         next(error)
     }
 }
+export const getLeaderBoard = async (req, res, next) => {
+    try {
+        const usersRef = collection(db, "users");
+
+        // Query only students
+        const q = query(usersRef, where("role", "==", "student"));
+        const querySnap = await getDocs(q);
+
+        const students = [];
+        querySnap.forEach((docSnap) => {
+            const data = docSnap.data();
+            students.push({
+                id: docSnap.id,
+                username: data.username || "",
+                xp: data.xp || 0,
+            });
+        });
+
+        // Sort by XP descending
+        const topStudents = students
+            .sort((a, b) => b.xp - a.xp)
+            .slice(0, 10);
+
+        res.status(200).json(topStudents);
+    } catch (error) {
+        next(error)
+    }
+}
 
 export const getClasses = async (req, res, next) => {
     try {
