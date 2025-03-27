@@ -57,17 +57,16 @@ function SigninForm() {
     <>
       <div className="w-full flex min-h-screen">
         {/* Left Section */}
-        <div className="w-1/2 bg-green-400 flex flex-col justify-center items-center p-10">
+        <div className="w-1/2 bg-green-400  flex-col justify-center items-center p-10 md:flex hidden">
           <h1 className="text-4xl font-bold text-black">GradeWise</h1>
           <img src="/assests/illustration.png" alt="Illustration" className="w-4/5 mt-5" />
         </div>
 
         {/* Right Section */}
-        <form onSubmit={handleFormSubmit} className="w-1/2 flex flex-col justify-center items-center px-14 bg-white">
+        <form onSubmit={handleFormSubmit} className="md:w-1/2 w-full flex flex-col justify-center items-center px-14 bg-white">
           {/* Header Navigation */}
           <header className="flex w-full justify-end space-x-6 mb-6">
             <Link href="/auth/signup" className="text-lg font-medium text-black">Sign up</Link>
-            <Link href="/about-us" className="text-lg font-medium text-black">About Us</Link>
           </header>
 
           {/* Login Form */}
@@ -101,25 +100,12 @@ function SigninForm() {
             )}
           </div>
 
-          {/* Forgot Password */}
-          <Link href="/forgot-password" className="text-blue-500 text-sm mb-4">Forgot your password?</Link>
 
           {/* Sign-in Button */}
           <button className="flex justify-center items-center w-[90%] bg-black text-white py-2 rounded-md hover:bg-gray-900 transition">
             {isLoading ? <Loader /> : 'Sign in'}
           </button>
 
-          {/* Divider */}
-          <div className="flex items-center w-[90%] my-4">
-            <hr className="flex-1 border-gray-300" />
-            <span className="px-3 text-gray-500">Or continue</span>
-            <hr className="flex-1 border-gray-300" />
-          </div>
-
-          {/* Google Login */}
-          <button className="w-[90%] border flex items-center justify-center py-2 rounded-md hover:bg-gray-100 transition text-black">
-            <FcGoogle size={20} className="mr-2" /> Log in with Google
-          </button>
 
           {/* Sign Up Link */}
           <p className="mt-4 text-gray-600">

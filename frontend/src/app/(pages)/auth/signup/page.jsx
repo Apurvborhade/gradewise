@@ -52,7 +52,7 @@ export default function SignUp() {
     return (
         <div className="flex h-screen w-full bg-gray-50">
             {/* Left Side - Illustration */}
-            <div className="w-1/2 bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center p-10">
+            <div className="w-1/2 bg-gradient-to-br md:flex hidden from-blue-500 to-indigo-600 items-center justify-center p-10">
                 <div className="w-full h-full flex items-center justify-center">
                     <img
                         src="/assests/illustration.png"
@@ -64,7 +64,7 @@ export default function SignUp() {
 
             {/* Right Side - Signup Form */}
 
-            <form className="w-1/2 bg-white flex flex-col justify-center px-20 shadow-lg" onSubmit={handleFormSubmit}>
+            <form className="md:w-1/2 w-full bg-white flex flex-col justify-center px-20 shadow-lg" onSubmit={handleFormSubmit}>
                 <h1 className="text-4xl font-semibold text-black mb-2">GradeWise</h1>
 
                 <p className="text-gray-600 mb-8">Create an account to get started</p>
@@ -117,14 +117,7 @@ export default function SignUp() {
                     {isLoading ? <Loader /> : 'Sign up'}
                 </button>
 
-                <div className="text-center text-gray-500 my-4">Or continue with</div>
-
-                {/* Google Sign Up */}
-                <button className="w-full border border-gray-300 py-3 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50 transition-all transform hover:scale-105 active:scale-95
-                text-black">
-                    <FcGoogle size={20} /> Sign up with Google
-                </button>
-
+                
                 {/* Already have an account? */}
                 <p className="text-gray-600 text-center mt-6">
                     Already have an account?{" "}
