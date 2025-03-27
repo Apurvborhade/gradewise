@@ -27,7 +27,7 @@ export default function SubmittedAssignmentsPage() {
     document.body.removeChild(link);
   };
   return (
-    <div className="p-6">
+    <div className="p-6 text-black">
       <h2 className="text-xl font-semibold mb-4">Submitted Assignments</h2>
       <div className="overflow-x-auto">
         <table className="w-full text-black border border-gray-300 text-left">
@@ -43,10 +43,10 @@ export default function SubmittedAssignmentsPage() {
           <tbody>
             {assignmentDetails ? (
 
-              <tr key={assignmentDetails.id} className="border-t text-white">
+              <tr key={assignmentDetails.id} className="border-t text-black">
                 <td className="p-3 border">{assignmentDetails.className}</td>
                 <td className="p-3 border">{assignmentDetails.assignmentName}</td>
-                <td className="p-3 border">{assignmentDetails.score}</td>
+                <td className="p-3 border">{assignmentDetails.score}/10</td>
                 <td className="p-3 border">{assignmentDetails.feedback}</td>
                 <td className="p-3 border">
                   <button

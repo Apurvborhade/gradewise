@@ -81,7 +81,7 @@ export default function Dashboard() {
                             {(isLoading || loading) && <div className={'w-full flex justify-center items-center'}><Loader className={'stroke-black'} /></div>}
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                                 {!isLoading && classes && classes.map((subject, index) => (
-                                    <div key={index} className="bg-white flex justify-between items-center p-6 shadow-md rounded-xl border border-gray-300">
+                                    <div key={index} className="bg-white flex flex-col justify-between items-start p-6 shadow-md rounded-xl border border-gray-300">
                                         <h2 className="text-2xl font-bold text-gray-800">{subject.className}</h2>
                                         <Link href={`/classes/${subject.id}`}>
                                             <button className="mt-3 bg-black text-white px-5 py-2 rounded-lg hover:bg-gray-900 cursor-pointer transition duration-300">
@@ -194,7 +194,7 @@ export default function Dashboard() {
                         {(isLoading || loading) && <div className={'w-full flex justify-center items-center'}><Loader className={'stroke-black'} /></div>}
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                             {!isLoading && classes && classes.map((subject, index) => (
-                                <div key={index} className="bg-white flex justify-between items-center p-6 shadow-md rounded-xl border border-gray-300">
+                                <div key={index} className="bg-white flex flex-col justify-between items-start p-6 shadow-md rounded-xl border border-gray-300">
                                     <h2 className="text-2xl font-bold text-gray-800">{subject.className}</h2>
                                     <Link href={`/classes/${subject.id}`}>
                                         <button className="mt-3 bg-black text-white px-5 py-2 rounded-lg hover:bg-gray-900 cursor-pointer transition duration-300">

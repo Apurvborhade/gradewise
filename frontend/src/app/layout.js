@@ -1,26 +1,26 @@
 
-// import { Geist, Geist_Mono } from "next/font/google";
-// import "./globals.css";
-// import { Provider } from "./Provider";
-// import { ToastContainer } from "react-toastify";
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+import { Provider } from "./Provider";
+import { ToastContainer } from "react-toastify";
 
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
 
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
-// export const metadata = {
-//   title: "Gradewise",
-//   description: "Gradewise Ai Grader",
-//   icons:{
-//     icon:'/ico.webp'
-//   }
-// };
+export const metadata = {
+  title: 'FeedbackAI | Hackathon Solution for Teacher Workload',
+  description: 'AI-powered feedback solution for educators',
+icons: {
+    icon: '/ico.webp'
+  }
+};
 
 // export default function RootLayout({ children }) {
 //   return (
@@ -43,10 +43,6 @@ import { Inter } from 'next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export const metadata = {
-  title: 'FeedbackAI | Hackathon Solution for Teacher Workload',
-  description: 'AI-powered feedback solution for educators',
-}
 
 export default function RootLayout({ children }) {
   return (
@@ -68,8 +64,13 @@ export default function RootLayout({ children }) {
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         />
       </head>
-      <body className={inter.className}>
-        {children}
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <Provider>
+          {children}
+          <ToastContainer />
+        </Provider>
         {/* Bootstrap JS Bundle with Popper */}
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         {/* jQuery (if needed) */}
