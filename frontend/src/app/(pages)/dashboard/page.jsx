@@ -28,7 +28,9 @@ export default function Dashboard() {
     const handleSubmit = (e) => {
         e.preventDefault();
         // Handle class creation logic (API call or Redux action)
-        createClass({ facultyId: user?.uid, className })
+
+        createClass({ facultyId: user?.user_id, className })
+        console.log(user?.user_id)
     };
     useEffect(() => {
         if (successCreatingClass) {
@@ -128,6 +130,7 @@ export default function Dashboard() {
                                                 <div className="col-span-4 text-right">Score</div>
                                             </div>
 
+                                            {leaderboardStudents && leaderboardStudents.length === 0 && <p>No Students in leaderboard :(</p>}
                                             {leaderboardStudents && leaderboardStudents.map((student, index) => (
                                                 <div
                                                     key={student.id}
@@ -214,11 +217,14 @@ export default function Dashboard() {
                                 <div className="card-content mt-5">
 
                                     <div className="space-y-2">
-                                        <div className="grid grid-cols-12 text-sm font-medium pb-1">
-                                            <div className="col-span-1">#</div>
-                                            <div className="col-span-7">Student</div>
-                                            <div className="col-span-4 text-right">Score</div>
-                                        </div>
+
+                                        {leaderboardStudents && leaderboardStudents.length === 0 ? <p>No Students in leaderboard.</p> : (
+                                            <div className="grid grid-cols-12 text-sm font-medium pb-1">
+                                                <div className="col-span-1">#</div>
+                                                <div className="col-span-7">Student</div>
+                                                <div className="col-span-4 text-right">Score</div>
+                                            </div>
+                                        )}
 
                                         {leaderboardStudents && leaderboardStudents.map((student, index) => (
                                             <div
@@ -228,7 +234,7 @@ export default function Dashboard() {
                                                 <div className="col-span-1 font-medium">{index + 1}</div>
                                                 <div className="col-span-7 flex items-center gap-2">
                                                     {/* <div className="relative flex h-6 w-6 shrink-0 overflow-hidden rounded-full"> */}
-                                                        {/* <Image
+                                                    {/* <Image
                                                                 src={student.avatar || "/placeholder.svg"}
                                                                 alt={student.name}
                                                                 fill
@@ -255,7 +261,7 @@ export default function Dashboard() {
                                         className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                         required
                                     />
-                                    
+
                                     <button
                                         type="submit"
                                         className="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700 transition duration-300 flex justify-center items-center"

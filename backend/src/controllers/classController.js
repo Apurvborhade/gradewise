@@ -210,6 +210,7 @@ export const getClasses = async (req, res, next) => {
 
         classesSnapshot.forEach((doc) => {
             const classData = doc.data();
+            console.log(classData.facultyId)
 
             if (req.user.role === 'faculty') {
                 if (classData.facultyId && classData.facultyId === userId) {
