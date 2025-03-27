@@ -228,7 +228,7 @@ export default function Dashboard() {
                                                 <div className="col-span-1 font-medium">{index + 1}</div>
                                                 <div className="col-span-7 flex items-center gap-2">
                                                     {/* <div className="relative flex h-6 w-6 shrink-0 overflow-hidden rounded-full"> */}
-                                                    {/* <Image
+                                                        {/* <Image
                                                                 src={student.avatar || "/placeholder.svg"}
                                                                 alt={student.name}
                                                                 fill
@@ -255,7 +255,7 @@ export default function Dashboard() {
                                         className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                         required
                                     />
-
+                                    
                                     <button
                                         type="submit"
                                         className="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700 transition duration-300 flex justify-center items-center"
@@ -266,17 +266,16 @@ export default function Dashboard() {
                                 </form>
                             </div>
                         </div>
-                    </div>
 
+
+                    </div>
 
                 </div>
 
+                {/* Footer Component */}
+                <Footer />
             </div>
-
-            {/* Footer Component */}
-            <Footer />
         </div>
-        </div >
     }
 
 }
