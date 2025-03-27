@@ -25,11 +25,11 @@ export default function Dashboard() {
 
     const [createClass, { isLoading: classCreating, error: errorCreatingClass, isSuccess: successCreatingClass }] = useCreateClassMutation()
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         // Handle class creation logic (API call or Redux action)
 
-        createClass({ facultyId: user?.user_id, className })
+        const response = await createClass({ facultyId: user?.user_id, className }).unwrap()
         console.log(user?.user_id)
     };
     useEffect(() => {

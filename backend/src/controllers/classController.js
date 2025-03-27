@@ -200,18 +200,18 @@ export const getClasses = async (req, res, next) => {
 
         const maxResults = Number(limitValue) || 10;
 
-        const classesSnapshot = await getDocs(query(collection(db, "classes"), limit(maxResults)))
+        const classesSnapshot = await getDocs(query(collection(db, "classes")))
 
         if (classesSnapshot.empty) {
             return res.status(404).json({ message: "No classes found" });
         }
 
+        
         const classes = [];
 
         classesSnapshot.forEach((doc) => {
             const classData = doc.data();
-            console.log(classData.facultyId)
-
+        
             if (req.user.role === 'faculty') {
                 if (classData.facultyId && classData.facultyId === userId) {
                     classes.push({ id: doc.id, ...classData });
@@ -226,8 +226,8 @@ export const getClasses = async (req, res, next) => {
         if (classes.length === 0) {
             return res.status(404).json({ message: "No classes found for this student" });
         }
-
-        res.status(200).json(classes);
+        const limitedClasses = classes.slice(0, maxResults);
+        res.status(200).json(limitedClasses);
     } catch (error) {
         next(error)
     }
