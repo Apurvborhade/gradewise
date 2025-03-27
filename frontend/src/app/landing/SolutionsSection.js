@@ -41,7 +41,7 @@ export default function SolutionsSection() {
                 </div>
                 <div>
                   <h4>Personalized Feedback</h4>
-                  <p className="mb-0">Tailored comments address each student's specific strengths and areas
+                  <p className="mb-0">Tailored comments address each student&apos;s specific strengths and areas
                     for improvement.</p>
                 </div>
               </div>
