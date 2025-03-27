@@ -170,8 +170,10 @@ export const getLeaderBoard = async (req, res, next) => {
         const querySnap = await getDocs(q);
 
         const students = [];
+        console.log(querySnap.size)
         querySnap.forEach((docSnap) => {
             const data = docSnap.data();
+            console.log("Student Data",data)
             students.push({
                 id: docSnap.id,
                 username: data.username || "",
@@ -184,6 +186,7 @@ export const getLeaderBoard = async (req, res, next) => {
             .sort((a, b) => b.xp - a.xp)
             .slice(0, 10);
 
+        console.log(students)
         res.status(200).json(topStudents);
     } catch (error) {
         next(error)
@@ -206,12 +209,12 @@ export const getClasses = async (req, res, next) => {
             return res.status(404).json({ message: "No classes found" });
         }
 
-        
+
         const classes = [];
 
         classesSnapshot.forEach((doc) => {
             const classData = doc.data();
-        
+
             if (req.user.role === 'faculty') {
                 if (classData.facultyId && classData.facultyId === userId) {
                     classes.push({ id: doc.id, ...classData });
