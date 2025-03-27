@@ -174,6 +174,54 @@ export const getAssignmentDetails = async (req, res, next) => {
         next(error);
     }
 };
+export const getSubmittedAssignmentDetails = async (req, res, next) => {
+    try {
+        const { assignmentId } = req.params;
+        if (!assignmentId) {
+            throw new AppError("Cannot find Assignment ID", 400);
+        }
+
+        const assignmentRef = doc(db, "submittedAssignments", assignmentId);
+        const assignmentSnap = await getDoc(assignmentRef);
+
+        if (!assignmentSnap.exists()) {
+            return res.status(404).json({ error: "Assignment not found" });
+        }
+        const assignmentData = assignmentSnap.data();
+        
+        const { classId, plagiarismReport,assignmentId:postedAssignmentId } = assignmentData;
+        let className = "Unknown";
+        if (classId) {
+            const classRef = doc(db, "classes", classId);
+            const classSnap = await getDoc(classRef);
+            if (classSnap.exists()) {
+                className = classSnap.data().className || "Unknown";
+            }
+        }
+
+        let assignmentName = "Unknown";
+        const assignmentMetaRef = doc(db, "assignments", postedAssignmentId);
+        const assignmentMetaSnap = await getDoc(assignmentMetaRef);
+        if (assignmentMetaSnap.exists()) {
+            assignmentName = assignmentMetaSnap.data().assignmentName || "Unknown";
+        }
+
+        let maxPlagiarismScore = 0;
+        if (Array.isArray(plagiarismReport) && plagiarismReport.length > 0) {
+            maxPlagiarismScore = Math.max(...plagiarismReport.map((entry) => entry.score));
+        }
+        const plagiarismPercentage = (maxPlagiarismScore * 100).toFixed(2) + "%";
+        return res.status(200).json({
+            id: assignmentSnap.id,
+            assignmentName,
+            className,
+            plagiarismPercentage,
+            ...assignmentData,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
 export const getAllAssignmentHandler = async (req, res, next) => {
     try {
 
@@ -233,7 +281,7 @@ export const getAssignmentRequests = async (req, res, next) => {
             const assignmentSnap = await getDoc(doc(db, "assignments", assignmentId));
             const assignmentName = assignmentSnap.exists() ? assignmentSnap.data().assignmentName : "Unknown Assignment";
 
-            return { id: docSnap.id, ...assignmentData, assignmentName,username };
+            return { id: docSnap.id, ...assignmentData, assignmentName, username };
         }))
         res.status(200).json(assignmentRequests)
     } catch (error) {
@@ -258,7 +306,7 @@ export const getAcceptedAssignments = async (req, res, next) => {
 
             const userSnap = await getDoc(doc(db, "users", studentId));
             const username = (userSnap.exists() && userSnap.data().username) ? userSnap.data().username : "Unknown";
-            
+
             if (docSnap.exists()) {
                 return {
                     id: docSnap.id,

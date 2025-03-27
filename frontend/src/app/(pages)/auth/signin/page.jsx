@@ -20,7 +20,16 @@ function SigninForm() {
     const formData = {
       email, password
     }
-    await signin(formData)
+    const response = await signin(formData).unwrap()
+
+    if (response?.token) {
+      // ✅ Manually set cookie in the browser
+      document.cookie = `token=${response.token}; path=/; Secure; SameSite=None`;
+      console.log('Cookie set manually:', document.cookie);
+    } else {
+      console.error('Token not found in response:', response);
+    }
+
   }
   useEffect(() => {
     if (isSuccess && !isLoading) {

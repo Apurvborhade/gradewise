@@ -34,8 +34,8 @@ router.post('/signup', async (req, res, next) => {
         res.cookie('token', idToken, {
             httpOnly: true,
             secure: true,
-            sameSite: 'None',
-            maxAge: 3600000
+            sameSite: 'none',
+            maxAge: 3600000,
         })
         // Response 
         res.status(201).json({ message: "User created & role assigned", uid: userRecord.uid, role, userRecord, token: idToken });
@@ -54,7 +54,7 @@ router.get('/token', async (req, res, next) => {
         }
         const userPayload = await auth.verifyIdToken(token);
 
-        res.status(200).json({ user:userPayload })
+        res.status(200).json({ user: userPayload })
     } catch (error) {
         next(error)
     }
@@ -75,9 +75,10 @@ router.post('/signin', async (req, res, next) => {
         res.cookie('token', idToken, {
             httpOnly: true,
             secure: true,
-            sameSite: 'None',
-            maxAge: 3600000
+            sameSite: 'none',
+            maxAge: 3600000,
         })
+        
         // Response 
         res.status(201).json({ message: "User created & role assigned", uid: userCredential.uid, userCredential, token: idToken });
     } catch (error) {

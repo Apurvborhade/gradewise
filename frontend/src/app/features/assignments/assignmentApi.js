@@ -13,8 +13,14 @@ export const assignmentApi = createApi({
             query: (classId) => `/?classId=${classId}`,
             providesTags: ['Assignment']
         }),
+        // Get assignment Details
         getAssignmentDetails: build.query({
             query: (assignmentId) => `/assignment-details/${assignmentId}`,
+            providesTags: ['Assignment']
+        }),
+        // Get submitted Assignment Details
+        getSubmittedAssignmentDetails: build.query({
+            query: (assignmentId) => `/submittedAssignment/${assignmentId}`,
             providesTags: ['Assignment']
         }),
         // Get All assignment in a class
@@ -96,4 +102,4 @@ export const assignmentApi = createApi({
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetAllAssignmentsQuery, useGetAssignmentAcceptedQuery, useGetAssignmentRejectedQuery, useGetAssignmentRequestsQuery, useGetAssignmentDetailsQuery, useGetStudentAssignmentsQuery, useGetTotalAssignmentSubmissionQuery, useHandleAssignmentMutation, usePostNewAssignmentMutation, useSubmitAssignmentMutation } = assignmentApi
+export const { useGetAllAssignmentsQuery, useGetAssignmentAcceptedQuery, useGetAssignmentRejectedQuery, useGetAssignmentRequestsQuery, useGetAssignmentDetailsQuery, useGetStudentAssignmentsQuery, useGetTotalAssignmentSubmissionQuery, useHandleAssignmentMutation, usePostNewAssignmentMutation, useSubmitAssignmentMutation, useGetSubmittedAssignmentDetailsQuery } = assignmentApi

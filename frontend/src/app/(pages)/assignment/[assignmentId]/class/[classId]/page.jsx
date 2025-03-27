@@ -4,7 +4,7 @@ import Sidebar from "@/app/components/Sidebar";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import { Bounce, toast } from "react-toastify";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useGetAssignmentDetailsQuery, useSubmitAssignmentMutation } from "@/app/features/assignments/assignmentApi";
 import useAuth from "@/app/hooks/useAuth";
 import { Loader } from "@/app/components/Loader";
@@ -13,6 +13,7 @@ export default function AssignmentDetails() {
     const [file, setFile] = useState(null);
     const [submitted, setSubmitted] = useState(false);
     const { assignmentId, classId } = useParams()
+    const router = useRouter()
     const { data: assignmentDetails, isLoading, isSuccess, error } = useGetAssignmentDetailsQuery(assignmentId, {
         skip: !assignmentId
     })
@@ -62,6 +63,7 @@ export default function AssignmentDetails() {
                 transition: Bounce,
             });
             setFile(null)
+            router.push('/dashboard')
         }
     }, [assignmentSubmitSuccess])
     return (

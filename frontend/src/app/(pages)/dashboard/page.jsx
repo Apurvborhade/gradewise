@@ -12,6 +12,8 @@ import { Bounce, toast } from 'react-toastify';
 
 export default function Dashboard() {
     const { user, loading } = useAuth()
+    
+    const [isOpen, setIsOpen] = useState(false);
     const [className, setClassName] = useState("");
     const [assignmentType, setAssignmentType] = useState("");
     const { data: classes, isLoading, isSuccess, refetch } = useGetClassesQuery({
@@ -48,7 +50,7 @@ export default function Dashboard() {
         return (
             <div className="flex h-screen bg-[#eef5ff]">
                 {/* Sidebar Component */}
-                <Sidebar />
+                <Sidebar isOpen={isOpen} />
 
                 {/* Main Content Area */}
                 <div className="flex-1 flex flex-col overflow-auto">
@@ -59,18 +61,17 @@ export default function Dashboard() {
                     <div className="flex flex-wrap p-6 gap-6">
                         {/* Main Section */}
                         <div className="flex-1 flex flex-col gap-6">
-                            <h1 className="text-4xl font-extrabold text-indigo-700">Dashboard</h1>
-                            <Link href="/KnowYourFaculty" className=' text-black bold'>See All</Link>
+                            <h1 className="text-4xl font-bold text-black">Dashboard</h1>
+                            <Link href="/classes" className=' text-black bold'>See All</Link>
 
                             {/* Subject Cards */}
                             {(isLoading || loading) && <div className={'w-full flex justify-center items-center'}><Loader className={'stroke-black'} /></div>}
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                                 {!isLoading && classes && classes.map((subject, index) => (
-                                    <div key={index} className="bg-white p-6 shadow-md rounded-xl border border-gray-300">
+                                    <div key={index} className="bg-white flex justify-between items-center p-6 shadow-md rounded-xl border border-gray-300">
                                         <h2 className="text-2xl font-bold text-gray-800">{subject.className}</h2>
-                                        <p className="text-gray-500">Started 05.03.2025</p>
                                         <Link href={`/classes/${subject.id}`}>
-                                            <button className="mt-3 bg-blue-500 text-white px-5 py-2 rounded-lg hover:bg-blue-600 transition duration-300">
+                                            <button className="mt-3 bg-black text-white px-5 py-2 rounded-lg hover:bg-gray-900 cursor-pointer transition duration-300">
                                                 View Class
                                             </button>
                                         </Link>
@@ -121,18 +122,17 @@ export default function Dashboard() {
                 <div className="flex flex-wrap p-6 gap-6">
                     {/* Main Section */}
                     <div className="flex-1 flex flex-col gap-6">
-                        <h1 className="text-4xl font-extrabold text-indigo-700">Dashboard</h1>
-                        <Link href="/KnowYourFaculty" className=' text-black bold'>See All</Link>
+                        <h1 className="text-4xl font-bold text-black">Dashboard</h1>
+                        <Link href="/classes" className=' text-black bold'>See All</Link>
 
                         {/* Subject Cards */}
                         {(isLoading || loading) && <div className={'w-full flex justify-center items-center'}><Loader className={'stroke-black'} /></div>}
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                             {!isLoading && classes && classes.map((subject, index) => (
-                                <div key={index} className="bg-white p-6 shadow-md rounded-xl border border-gray-300">
+                                <div key={index} className="bg-white flex justify-between items-center p-6 shadow-md rounded-xl border border-gray-300">
                                     <h2 className="text-2xl font-bold text-gray-800">{subject.className}</h2>
-                                    <p className="text-gray-500">Started 05.03.2025</p>
                                     <Link href={`/classes/${subject.id}`}>
-                                        <button className="mt-3 bg-blue-500 text-white px-5 py-2 rounded-lg hover:bg-blue-600 transition duration-300">
+                                        <button className="mt-3 bg-black text-white px-5 py-2 rounded-lg hover:bg-gray-900 cursor-pointer transition duration-300">
                                             View Class
                                         </button>
                                     </Link>
@@ -159,10 +159,10 @@ export default function Dashboard() {
                                         className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                         required
                                     />
-                                    
+
                                     <button
                                         type="submit"
-                                        className="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700 transition duration-300 flex justify-center items-center"
+                                        className="bg-blue-500 text-white px-5 py-2 rounded-lg hover:bg-indigo-700 transition duration-300 flex justify-center items-center"
                                     >
                                         {classCreating ? <Loader /> : 'Create Class'}
 

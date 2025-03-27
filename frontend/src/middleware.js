@@ -1,9 +1,10 @@
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export function middleware(req) {
 
     const token = req.cookies.get("token")?.value; // ✅ Read token
-
+    
     if (req.nextUrl.pathname === '/auth/signup' || req.nextUrl.pathname === '/auth/signin') {
         if (token) {
             console.log("redirect")
