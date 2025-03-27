@@ -29,6 +29,11 @@ export const classesApi = createApi({
             query: ({ userId, limit }) => `/${userId}/classes?limit=${limit}`,
             providesTags: ['Class']
         }),
+        // Get Class Leaderboard
+        getLeaderboard: build.query({
+            query: () => `/leaderboard`,
+            providesTags: ['Class']
+        }),
 
         // * Mutations 
         // Create Class (Faculty)
@@ -37,7 +42,8 @@ export const classesApi = createApi({
                 url: `/create`,
                 method: 'POST',
                 body
-            })
+            }),
+            invalidatesTags:['Class']
         }),
         // Join Class (Student)
         joinClass: build.mutation({
@@ -64,4 +70,4 @@ export const classesApi = createApi({
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useCreateClassMutation, useGetStudentsQuery, useGetStudentsRequestsQuery, useHandleJoinRequestsMutation, useJoinClassMutation, useGetClassesQuery,useGetClassDetailsQuery } = classesApi
+export const { useCreateClassMutation, useGetStudentsQuery, useGetStudentsRequestsQuery, useGetLeaderboardQuery,useHandleJoinRequestsMutation, useJoinClassMutation, useGetClassesQuery,useGetClassDetailsQuery } = classesApi

@@ -21,7 +21,7 @@ function SigninForm() {
       email, password
     }
     const response = await signin(formData).unwrap()
-
+    console.log(response)
     if (response?.token) {
       // ✅ Manually set cookie in the browser
       document.cookie = `token=${response.token}; path=/; Secure; SameSite=None`;
