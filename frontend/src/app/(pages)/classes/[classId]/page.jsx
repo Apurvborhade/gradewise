@@ -51,7 +51,7 @@ const ClassPage = () => {
 
 
     const [copied, setCopied] = useState(false);
-    const classLink = `http://localhost:3000/classes/${classId}/join`; // Replace with actual class link
+    const classLink = `http://gradewise-lilac.vercel.app/classes/${classId}/join`; // Replace with actual class link
 
     const handleCopy = async () => {
         try {
@@ -95,13 +95,13 @@ const ClassPage = () => {
     };
 
     // Approve Assignment Request
-    const approveAssignment = (id) => {
-        handleAssignment({ classId, studentId: user?.uid, assignmentId: id, action: 'accept' })
+    const approveAssignment = (id,studentId) => {
+        handleAssignment({ classId, studentId, assignmentId: id, action: 'accept' })
     };
 
     // Reject Assignment Request
-    const rejectAssignment = (id) => {
-        handleAssignment({ classId, studentId: user?.uid, assignmentId: id, action: 'reject' })
+    const rejectAssignment = (id,studentId) => {
+        handleAssignment({ classId, studentId, assignmentId: id, action: 'reject' })
     };
 
     // Add New Assignment
@@ -316,16 +316,17 @@ const ClassPage = () => {
 
                                                             )}
                                                             <button
-                                                                onClick={() => approveAssignment(req.id)}
-                                                                className="px-4 py-1 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
+                                                                onClick={() => approveAssignment(req.id,req.studentId)}
+                                                                className="px-4 py-1 flex justify-center items-center bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
                                                             >
-                                                                Approve
+                                                                {RequestHandlerLoading ? <Loader /> : 'Approve'}
+                                                                
                                                             </button>
                                                             <button
-                                                                onClick={() => rejectAssignment(req.id)}
-                                                                className="px-4 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                                                                onClick={() => rejectAssignment(req.id,req.studentId)}
+                                                                className="px-4 py-1 flex justify-center items-center bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
                                                             >
-                                                                Reject
+                                                                {RequestHandlerLoading ? <Loader /> : 'Reject'}
                                                             </button>
                                                         </div>
                                                     </li>

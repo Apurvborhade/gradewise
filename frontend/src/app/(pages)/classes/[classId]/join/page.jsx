@@ -1,9 +1,11 @@
 'use client'
 
+import { Loader } from "@/app/components/Loader";
 import { useJoinClassMutation } from "@/app/features/classes/classesApi";
 import useAuth from "@/app/hooks/useAuth";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Bounce, toast } from "react-toastify";
 
 export default function JoinClassSection() {
     const [className, setClassName] = useState("");
@@ -16,6 +18,19 @@ export default function JoinClassSection() {
             router.push(`/auth/signin?redirectUrl=/classes/${classId}/join`)
         }
     }, [user, loading])
+
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success("Request Sent,Wait for the approval", {
+                position: "bottom-right",
+                autoClose: 3000,
+                theme: "dark",
+                transition: Bounce,
+            });
+
+            router.push('/dashboard')
+        }
+    }, [isSuccess])
     const handleJoinRequest = (e) => {
         e.preventDefault();
         if (user) {
@@ -35,7 +50,7 @@ export default function JoinClassSection() {
                     onClick={handleJoinRequest}
                     className="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700 transition duration-300"
                 >
-                    Send Join Request
+                    {isLoading ? <Loader /> : 'Send Join Request'}
                 </button>
 
             </div>
