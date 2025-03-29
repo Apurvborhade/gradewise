@@ -40,6 +40,7 @@ export const metadata = {
 // src/app/layout.js
 import './globals.css'
 import { Inter } from 'next/font/google'
+import { SidebarProvider } from "@/components/sidebar-provider";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -51,7 +52,9 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Provider>
-          {children}
+          <SidebarProvider>
+            {children}
+          </SidebarProvider>
           <ToastContainer />
         </Provider>
       </body>

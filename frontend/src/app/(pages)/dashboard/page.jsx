@@ -65,7 +65,7 @@ export default function Dashboard() {
         return (
             <div className="flex h-screen bg-[#eef5ff]">
                 {/* Sidebar Component */}
-                <Sidebar isOpen={isOpen} />
+                <Sidebar  />
 
                 {/* Main Content Area */}
                 <div className="flex-1 flex flex-col overflow-auto">

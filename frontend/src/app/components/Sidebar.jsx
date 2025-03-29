@@ -1,76 +1,101 @@
-"use client";
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useUserLogoutMutation } from "../features/users/usersApi";
-import { Menu, X } from "lucide-react";
+"use client"
 
-const Sidebar = ({isOpen}) => {
-    const router = useRouter();
-    const [logout] = useUserLogoutMutation();
+import { useState, useEffect } from "react"
+import Link from "next/link"
+import { usePathname, useRouter } from "next/navigation"
+import { LayoutDashboard, Bell, CheckSquare, Calendar, BookOpen, Settings, LogOut, Menu } from "lucide-react"
+import { useSidebar } from "@/components/sidebar-provider"
+import { useUserLogoutMutation } from "../features/users/usersApi"
 
-    const menuItems = [
-        { name: "Dashboard", path: "/dashboard" },
-        { name: "Classes", path: "/classes" },
-        { name: "Logout", path: "/auth/signin", isLogout: true },
-    ];
+
+export default function Sidebar() {
+    const pathname = usePathname()
+    const { isOpen, toggle } = useSidebar()
+    const [logout] = useUserLogoutMutation()
+    const router = useRouter()
+    const [isMobile, setIsMobile] = useState(false)
+
+    useEffect(() => {
+        const checkIfMobile = () => {
+            setIsMobile(window.innerWidth < 768)
+        }
+
+        checkIfMobile()
+        window.addEventListener("resize", checkIfMobile)
+
+        return () => {
+            window.removeEventListener("resize", checkIfMobile)
+        }
+    }, [])
+
+    const navItems = [
+        {
+            name: "Dashboard",
+            href: "/dashboard",
+            icon: LayoutDashboard,
+        },
+        {
+            name: "Classes",
+            href: "/classes",
+            icon: BookOpen,
+        },
+    ]
 
     const handleLogout = () => {
-        logout();
+        logout()
         router.push("/auth/signin");
-    };
+    }
+    if (isMobile && !isOpen) {
+        return (
+            <button
+                className="fixed top-4 left-4 z-50 bg-slate-800 text-white hover:bg-slate-700 p-2 rounded-md"
+                onClick={toggle}
+            >
+                <Menu className="h-5 w-5" />
+            </button>
+        )
+    }
 
     return (
-        <>
-            {/* Mobile Header */}
-            {isOpen && (
-                <div className="md:hidden flex items-center justify-between bg-gray-900 text-white p-4 shadow-lg">
-                    <h1 className="text-xl font-extrabold">Gradewise</h1>
-                </div>
-            )}
-            
-            {/* Sidebar for Desktop & Mobile */}
-            <div
-                className={`fixed top-0 left-0 h-full w-64 bg-gray-900 text-white flex flex-col justify-between shadow-lg transform transition-transform duration-300 z-50 
-                ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 md:static md:flex`}
-            >
-                {/* Logo */}
-                <div className="p-6 hidden md:block">
-                    <h1 className="text-2xl font-extrabold tracking-wide">Gradewise</h1>
+        <div
+            className={`bg-slate-800 text-white transition-all duration-300 z-40 ${isOpen ? "w-64" : "w-0 md:w-20"
+                } ${isMobile && !isOpen ? "hidden" : ""}`}
+        >
+            <div className="flex flex-col h-screen">
+                <div className="p-6">
+                    <h1 className={`text-2xl font-bold transition-all duration-300 ${!isOpen && "md:opacity-0"}`}>Gradewise</h1>
+                    {isMobile && (
+                        <button className="absolute top-4 right-4 text-white hover:bg-slate-700 p-2 rounded-md" onClick={toggle}>
+                            <Menu className="h-5 w-5" />
+                        </button>
+                    )}
                 </div>
 
-                {/* Mobile Logo */}
-                <div className="p-6 md:hidden">
-                    <h1 className="text-2xl font-extrabold tracking-wide">Gradewise</h1>
-                </div>
-
-                {/* Menu */}
-                <nav className="flex-1">
-                    <ul className="space-y-4 px-6">
-                        {menuItems.map((item, index) => (
-                            <li
-                                key={index}
-                                className={`cursor-pointer text-lg font-medium transition duration-300 
-                                ${item.isLogout ? "text-red-400 hover:text-red-600" : "hover:text-yellow-400"}`}
-                                onClick={() => {
-                                    if (item.isLogout) handleLogout();
-                                    else router.push(item.path); // Close menu on mobile click
-                                }}
-                            >
-                                {item.name}
+                <nav className="flex-1 px-4">
+                    <ul className="space-y-2">
+                        {navItems.map((item) => (
+                            <li key={item.name}>
+                                <Link
+                                    href={item.href}
+                                    className={`flex items-center py-3 px-4 rounded-md transition-colors ${pathname === item.href ? "bg-blue-600 text-white" : "text-gray-300 hover:bg-slate-700"
+                                        }`}
+                                >
+                                    <item.icon className="h-5 w-5 mr-3" />
+                                    <span className={`transition-all duration-300 ${!isOpen && "md:hidden"}`}>{item.name}</span>
+                                </Link>
                             </li>
                         ))}
                     </ul>
                 </nav>
+
+                <div className="p-4 mt-auto">
+                    <button className="w-full justify-start text-gray-300 hover:bg-slate-700 hover:text-white flex items-center py-2 px-3 rounded-md" onClick={handleLogout}>
+                        <LogOut className="h-5 w-5 mr-3" />
+                        <span className={`transition-all duration-300 ${!isOpen && "md:hidden"}`}>Logout</span>
+                    </button>
+                </div>
             </div>
+        </div>
+    )
+}
 
-            {/* Overlay when mobile sidebar is open */}
-            {isOpen && (
-                <div
-                    className="fixed inset-0 bg-black opacity-50 z-40 md:hidden"
-                />
-            )}
-        </>
-    );
-};
-
-export default Sidebar;
