@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useGetStudentAssignmentsQuery } from "@/app/features/assignments/assignmentApi";
 import useAuth from "@/app/hooks/useAuth";
 import Link from "next/link";
+import { ChevronRight, Eye } from "lucide-react";
 
 export default function Assignments() {
     const { user, loading } = useAuth();
@@ -32,62 +33,74 @@ export default function Assignments() {
     }, [data]);
 
     return (
-        <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-300 mt-6">
-            <h1 className="text-3xl font-bold text-black mb-6 text-center">📑 Submitted Assignments</h1>
+        <div className="card bg-white md:mt-4 md:p-5">
+            <div className="card-header">
+                <div className="flex justify-between items-center">
+                    <h3 className="card-title">Assignment</h3>
+                    <button className="text-blue-600 text-sm font-medium flex items-center">
+                        See all <ChevronRight className="h-4 w-4 ml-1" />
+                    </button>
+                </div>
+            </div>
 
             {/* Table Section */}
-            <div className="overflow-x-auto">
-                <table className="w-full border-collapse border border-gray-300">
-                    <thead>
-                        <tr className="bg-gray-200">
-                            <th className="border border-gray-300 px-4 py-2 text-left text-black">Class Name</th>
-                            <th className="border border-gray-300 px-4 py-2 text-left text-black">Submission Date</th>
-                            <th className="border border-gray-300 px-4 py-2 text-left text-black">Plagiarism Report</th>
-                            <th className="border border-gray-300 px-4 py-2 text-left text-black">Score</th>
-                            <th className="border border-gray-300 px-4 py-2 text-left text-black">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {isLoading && (
-                            <tr>
-                                <td colSpan="5" className="text-center p-4">Loading...</td>
-                            </tr>
-                        )}
-                        {isSuccess && data?.assignments?.length === 0 && (
-                            <tr>
-                                <td colSpan="5" className="text-center p-4">No Assignments Found</td>
-                            </tr>
-                        )}
-                        {isSuccess && data?.assignments?.map((assignment) => (
-                            <tr key={assignment.id} className="hover:bg-gray-100">
-                                <td className="border border-gray-300 px-4 py-2 text-black">{assignment.className}</td>
-                                {/* <td className="border border-gray-300 px-4 py-2 text-black">{assignment.submissionDate. || "N/A"}</td> */}
-                                <td className="border border-gray-300 px-4 py-2">
-                                    <span className={assignment.plagiarismReport && assignment.plagiarismReport.length !== 0 ? "text-green-600" : "text-red-600"}>
-                                        {assignment.plagiarismReport && assignment.plagiarismReport.length !== 0 ? 'Available' : 'Not Available'}
-                                    </span>
-                                </td>
-                                <td className="border border-gray-300 px-4 py-2">
-                                    {assignment.plagiarismReport && assignment.plagiarismReport.length > 0 ? (
+            <div className="card-content md:my-5">
+                <div className="space-y-3">
+
+
+                    {isLoading && (
+
+                            <p colSpan="5" className="text-center p-4">Loading...</p>
+
+                    )}
+                    {isSuccess && data?.assignments?.length === 0 && (
+                        
+                            <p colSpan="5" className="text-center p-4">No Assignments Found</p>
+                        
+                    )}
+                    {isSuccess && data?.assignments?.map((assignment,index) => (
+                        <div
+                            key={assignment.id}
+                            className="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm"
+                        >
+                            <div className="flex items-center gap-3">
+                                <div
+                                    className={`text-2xl h-10 w-10 flex items-center justify-center rounded-md`}
+                                >
+                                    🧪
+                                </div>
+                                <div>
+                                    <h3 className="font-medium">
+                                        {index+1}. {assignment.className}
+                                    </h3>
+                                    <div className="flex items-center text-xs text-gray-500 gap-2">
+                                        <span>{assignment.className}</span>
+                                        <span>•</span>
+                                        <span>level 1</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-4">
+                                <div className="text-right">
+                                    <div className="font-medium">Score: {assignment.score}/10</div>
+                                    <div className="text-xs text-red-500">Plagiarism: {assignment.plagiarismReport && assignment.plagiarismReport.length > 0 ? (
                                         <span className={Math.floor(Math.max(...assignment.plagiarismReport.map(report => report.score)) * 100) > 60 ? 'text-red-600' : `text-green-600`}>
-                                             {Math.floor(Math.max(...assignment.plagiarismReport.map(report => report.score)) * 100)}%
+                                            {Math.floor(Math.max(...assignment.plagiarismReport.map(report => report.score)) * 100)}%
                                         </span>
                                     ) : (
                                         <span className="text-green-600">0 %</span>
-                                    )}
-                                </td>
-                                <td className="border border-gray-300 px-4 py-2 text-black">{assignment.score}/10</td>
-                                <td className="border border-gray-300 px-4 py-2 flex gap-2 flex justify-center items-center">
-                                    <Link href={`/submittedAssignment/${assignment.id}`}>
-                                        <button className="bg-black text-white px-4 py-2 rounded-lg transition">
-                                            View Assignment
-                                        </button>
-                                    </Link>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                                    )}</div>
+                                </div>
+
+                                <Link href={`/submittedAssignment/${assignment.id}`}>
+                                    <button className="flex items-center gap-1 border border-gray-300 px-2 py-1 rounded-md cursor-pointer">
+                                        <Eye className="h-4 w-4" /> View
+                                    </button>
+                                </Link>
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
 
             {/* Pagination Section */}

@@ -18,9 +18,9 @@ const Header = () => {
         console.log(user)
     },[user])
     return (
-        <header className="w-full bg-white shadow-md py-4 px-6 flex items-center justify-between">
+        <header className="w-full bg-auto  py-4 px-5 flex items-center justify-between">
             {/* Dashboard Title */}
-            <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
+            <h1 className="text-3xl font-bold text-gray-800">Dashboard</h1>
 
             {/* Profile / User Section (Optional) */}
             <div className="flex items-center space-x-4">
