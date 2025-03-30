@@ -301,7 +301,8 @@ export const getAcceptedAssignments = async (req, res, next) => {
         const acceptedAssignments = await Promise.all(acceptedAssignmentIds.map(async (id) => {
             const docSnap = await getDoc(doc(db, "submittedAssignments", id))
             const assignmentData = docSnap.data()
-
+            const classAssignmentSnap = await getDoc(doc(db,"assignments",assignmentData.assignmentId))
+            const classAssignmentData = classAssignmentSnap.data()
             const studentId = assignmentData.studentId;
 
             const userSnap = await getDoc(doc(db, "users", studentId));
@@ -311,6 +312,7 @@ export const getAcceptedAssignments = async (req, res, next) => {
                 return {
                     id: docSnap.id,
                     username,
+                    assignmentName:classAssignmentData.assignmentName,
                     ...assignmentData,
                 }
             } else return []

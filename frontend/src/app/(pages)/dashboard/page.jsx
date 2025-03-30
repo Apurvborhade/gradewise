@@ -62,7 +62,7 @@ export default function Dashboard() {
         { id: 5, name: "Emma Carter", avatar: "/placeholder.svg?height=40&width=40", score: 250 },
     ]
 
-    const cardColors = ['blue','yellow', 'green', 'pink']
+    const cardColors = ['blue', 'yellow', 'green', 'pink']
 
     console.log(Math.floor(Math.random()) * 3)
     if (user?.role === 'student') {
@@ -92,7 +92,7 @@ export default function Dashboard() {
                                 {/* Subject Cards */}
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 ">
                                     {!isLoading && classes && classes.map((cls, index) => (
-                                        <div key={index} className={`rounded-lg overflow-hidden border-none shadow-md  bg-${cardColors[Math.floor(Math.random() * cardColors.length -1)]}-300`}>
+                                        <div key={index} className={`rounded-lg overflow-hidden border-none shadow-md  bg-${cardColors[Math.floor(Math.random() * cardColors.length - 1)]}-300`}>
                                             <div className="p-4 pb-2">
                                                 <div className="flex justify-between items-start">
                                                     <h3 className="text-lg font-bold">{cls.className}</h3>
@@ -102,8 +102,9 @@ export default function Dashboard() {
                                             </div>
                                             <div className="p-4">
                                                 <p className="text-xs mb-4 line-clamp-4">Class Description</p>
-
-                                                <button className="w-full bg-white/20 hover:bg-white/30 text-xs py-2 rounded-md">View Faculty</button>
+                                                <Link href={`/classes/${cls.id}`}>
+                                                    <button className="cursor-pointer w-full bg-white/20 hover:bg-white/30 text-xs py-2 rounded-md">View Faculty</button>
+                                                </Link>
                                             </div>
                                         </div>
                                     ))}
@@ -335,8 +336,9 @@ export default function Dashboard() {
                                         </div>
                                         <div className="p-4">
                                             <p className="text-xs mb-4 line-clamp-4">Class Description</p>
-
-                                            <button className="w-full bg-white/20 hover:bg-white/30 text-xs py-2 rounded-md">View Class</button>
+                                            <Link href={`/classes/${cls.id}`}>
+                                                <button className="cursor-pointer w-full bg-white/20 hover:bg-white/30 text-xs py-2 rounded-md">View Class</button>
+                                            </Link>
                                         </div>
                                     </div>
                                 ))}
