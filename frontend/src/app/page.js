@@ -134,7 +134,7 @@ export default function Home() {
                     </div>
                     <div>
                       <h4 className="text-xl font-semibold mb-2">Personalized Feedback</h4>
-                      <p className="mb-0">Tailored comments address each student's specific strengths and areas for improvement.</p>
+                      <p className="mb-0">Tailored comments address each student&lsquo;s specific strengths and areas for improvement.</p>
                     </div>
                   </div>
                 </div>
