@@ -18,7 +18,7 @@ export default function Dashboard() {
     const [isOpen, setIsOpen] = useState(false);
     const [className, setClassName] = useState("");
     const [assignmentType, setAssignmentType] = useState("");
-    const { data: classes, isLoading, isSuccess, refetch } = useGetClassesQuery({
+    const { data: classes, isLoading, isError: ClassNotFound, isSuccess, refetch } = useGetClassesQuery({
         userId: user?.uid,
         limit: 3
     }, {
@@ -82,7 +82,13 @@ export default function Dashboard() {
                                 {(isLoading || loading) && <div className={'w-full flex justify-center items-center'}><Loader className={'stroke-black'} /></div>}
 
                                 {/* Subject Cards */}
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 ">
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:mb-10">
+                                    {ClassNotFound && (
+                                        <div className='col-span-3'>
+                                            <p className='text-xl mt-5 text-center'>No Class found</p>
+                                            <p className='text-sm p-1  text-center italic'>Ask faculty for class invite link.</p>
+                                        </div>
+                                    )}
                                     {!isLoading && classes && classes.map((cls, index) => (
                                         <div key={index} className={`rounded-lg overflow-hidden border-none shadow-md  bg-${cardColors[Math.floor(Math.random() * cardColors.length)]}-300 bg-blue-300`}>
                                             <div className="p-4 pb-2">
@@ -241,8 +247,6 @@ export default function Dashboard() {
                             </div>
                         </div>
                     </div>
-                    {/* Footer Component */}
-                    <Footer />
                 </div>
             </div>
         );
@@ -271,6 +275,11 @@ export default function Dashboard() {
 
                             {/* Subject Cards */}
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 ">
+                                {ClassNotFound && (
+                                    <div className='col-span-3'>
+                                        <p className='text-xl mt-5 text-center'>No Class found</p>
+                                    </div>
+                                )}
                                 {!isLoading && classes && classes.map((cls, index) => (
                                     <div key={index} className={`rounded-lg overflow-hidden border-none shadow-md  bg-${cardColors[Math.floor(Math.random() * cardColors.length)]}-300`}>
                                         <div className="p-4 pb-2">

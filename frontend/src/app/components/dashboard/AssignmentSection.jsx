@@ -71,7 +71,7 @@ export default function Assignments() {
                                 </div>
                                 <div>
                                     <h3 className="font-medium">
-                                        {index+1}. {assignment.className}
+                                        {index+1}. {assignment.assignmentName}
                                     </h3>
                                     <div className="flex items-center text-xs text-gray-500 gap-2">
                                         <span>{assignment.className}</span>
