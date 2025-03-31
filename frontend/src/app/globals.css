@@ -7,7 +7,9 @@
   --background: #ffffff;
   --foreground: #171717;
 }
-
+.bg-overlay {
+  background-color: rgba(0, 0, 0, 0.461);
+}
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
