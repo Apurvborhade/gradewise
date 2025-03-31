@@ -5,6 +5,7 @@ import { getTotalSubmissions } from "../services/assignment/totalSubmission.js"
 import { response } from "express"
 import { admin, adminDB, auth } from "../config/firebaseadmin.js"
 import { studentProgress } from "../services/assignment/studentProgress.js"
+import { extractFeedback } from "../services/grading/extractFeedback.js"
 // POST
 export const newAssignment = async (req, res, next) => {
     try {
@@ -188,15 +189,20 @@ export const getSubmittedAssignmentDetails = async (req, res, next) => {
             return res.status(404).json({ error: "Assignment not found" });
         }
         const assignmentData = assignmentSnap.data();
-        
-        const { classId, plagiarismReport,assignmentId:postedAssignmentId } = assignmentData;
+
+        const { classId, plagiarismReport, assignmentId: postedAssignmentId } = assignmentData;
         let className = "Unknown";
+        let accepted = false
         if (classId) {
             const classRef = doc(db, "classes", classId);
             const classSnap = await getDoc(classRef);
             if (classSnap.exists()) {
                 className = classSnap.data().className || "Unknown";
             }
+            if (Object.keys(classSnap.data().assignments).includes(assignmentId)) {
+                accepted = true
+            }
+
         }
 
         let assignmentName = "Unknown";
@@ -211,11 +217,14 @@ export const getSubmittedAssignmentDetails = async (req, res, next) => {
             maxPlagiarismScore = Math.max(...plagiarismReport.map((entry) => entry.score));
         }
         const plagiarismPercentage = (maxPlagiarismScore * 100).toFixed(2) + "%";
+        const feedBackResponse = extractFeedback(assignmentData.feedback)
         return res.status(200).json({
             id: assignmentSnap.id,
             assignmentName,
             className,
+            accepted,
             plagiarismPercentage,
+            feedBackResponse,
             ...assignmentData,
         });
     } catch (error) {
@@ -301,7 +310,7 @@ export const getAcceptedAssignments = async (req, res, next) => {
         const acceptedAssignments = await Promise.all(acceptedAssignmentIds.map(async (id) => {
             const docSnap = await getDoc(doc(db, "submittedAssignments", id))
             const assignmentData = docSnap.data()
-            const classAssignmentSnap = await getDoc(doc(db,"assignments",assignmentData.assignmentId))
+            const classAssignmentSnap = await getDoc(doc(db, "assignments", assignmentData.assignmentId))
             const classAssignmentData = classAssignmentSnap.data()
             const studentId = assignmentData.studentId;
 
@@ -312,7 +321,7 @@ export const getAcceptedAssignments = async (req, res, next) => {
                 return {
                     id: docSnap.id,
                     username,
-                    assignmentName:classAssignmentData.assignmentName,
+                    assignmentName: classAssignmentData.assignmentName,
                     ...assignmentData,
                 }
             } else return []

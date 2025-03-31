@@ -54,17 +54,9 @@ export default function Dashboard() {
     useEffect(() => {
         console.log(user)
     }, [user])
-    const leaderboard = [
-        { id: 1, name: "James Anderson", avatar: "/placeholder.svg?height=40&width=40", score: 360 },
-        { id: 2, name: "Olivia Bennett", avatar: "/placeholder.svg?height=40&width=40", score: 320 },
-        { id: 3, name: "Ethan Miller", avatar: "/placeholder.svg?height=40&width=40", score: 290 },
-        { id: 4, name: "Lucas Wright", avatar: "/placeholder.svg?height=40&width=40", score: 275 },
-        { id: 5, name: "Emma Carter", avatar: "/placeholder.svg?height=40&width=40", score: 250 },
-    ]
 
     const cardColors = ['blue', 'yellow', 'green', 'pink']
 
-    console.log(Math.floor(Math.random()) * 3)
     if (user?.role === 'student') {
         return (
             <div className="flex h-screen bg-[#eef5ff]">
@@ -92,7 +84,7 @@ export default function Dashboard() {
                                 {/* Subject Cards */}
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 ">
                                     {!isLoading && classes && classes.map((cls, index) => (
-                                        <div key={index} className={`rounded-lg overflow-hidden border-none shadow-md  bg-${cardColors[Math.floor(Math.random() * cardColors.length - 1)]}-300`}>
+                                        <div key={index} className={`rounded-lg overflow-hidden border-none shadow-md  bg-${cardColors[Math.floor(Math.random() * cardColors.length)]}-300 bg-blue-300`}>
                                             <div className="p-4 pb-2">
                                                 <div className="flex justify-between items-start">
                                                     <h3 className="text-lg font-bold">{cls.className}</h3>
@@ -111,7 +103,7 @@ export default function Dashboard() {
                                 </div>
                                 {/* Leaderboard & Scores */}
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:mt-5">
-                                    <div className="card bg-white text-black p-4  border-gray-600 rounded-md">
+                                    <div className="card bg-white text-black p-4 rounded-md  border-gray-600 rounded-md">
                                         <div className="card-header">
                                             <h3 className="card-title font-bold text-2xl">Leaderboard</h3>
                                         </div>
@@ -170,7 +162,7 @@ export default function Dashboard() {
                                         </div>
                                     </div>
 
-                                    <div className="card bg-white p-4">
+                                    <div className="card bg-white p-4 rounded-md">
                                         <div className="card-header">
                                             <div className="flex justify-between items-center">
                                                 <h3 className="card-title">Scores</h3>
@@ -239,58 +231,12 @@ export default function Dashboard() {
                         </div>
                         {/* Right Sidebar */}
                         <div className="space-y-6 mt-3 md:mt-6">
-                            <div className="card bg-white p-5 rounded-md border border-gray-300">
+                            <div className="card relative bg-white p-5 min-h-3/4 rounded-md border border-gray-300">
                                 <div className="card-header">
-                                    <h3 className="card-title">Class progress</h3>
+                                    <h3 className="card-title">Chat Bot</h3>
                                 </div>
-                                <div className="card-content space-y-4">
-                                    <div className="grid grid-cols-2 gap-3">
-                                        <div className="border border-gray-300 rounded-md p-3 col-span-1">
-                                            <div className="text-sm font-medium">Assignments</div>
-                                            <div className="text-2xl font-bold mt-1">12/15</div>
-                                        </div>
-                                        <div className="border border-gray-300 rounded-md p-3 col-span-1">
-                                            <div className="text-sm font-medium">Average Score</div>
-                                            <div className="text-2xl font-bold mt-1">85%</div>
-                                        </div>
-                                        <div className="border border-gray-300 rounded-md p-3 col-span-1">
-                                            <div className="text-sm font-medium">Attendance</div>
-                                            <div className="text-2xl font-bold mt-1">92%</div>
-                                        </div>
-                                        <div className="border border-gray-300 rounded-md p-3 col-span-1">
-                                            <div className="text-sm font-medium">Rank</div>
-                                            <div className="text-2xl font-bold mt-1">#4</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="card bg-white p-5 rounded-md border border-gray-300">
-                                <div className="card-header flex flex-row items-center justify-between pb-2">
-                                    <h3 className="card-title">Schedule</h3>
-                                    <button className="text-blue-600 text-sm font-medium flex items-center">
-                                        See all <ChevronRight className="h-4 w-4 ml-1" />
-                                    </button>
-                                </div>
-                                <div className="card-content space-y-3">
-                                    <div className="border rounded-md p-3">
-                                        <div className="flex justify-between items-start">
-                                            <div>
-                                                <h3 className="font-medium">Chemistry Lab</h3>
-                                                <p className="text-sm text-gray-500">10:00 AM - 11:30 AM</p>
-                                            </div>
-                                            <span className="badge badge-primary">Today</span>
-                                        </div>
-                                    </div>
-                                    <div className="border rounded-md p-3">
-                                        <div className="flex justify-between items-start">
-                                            <div>
-                                                <h3 className="font-medium">Physics Quiz</h3>
-                                                <p className="text-sm text-gray-500">2:00 PM - 3:00 PM</p>
-                                            </div>
-                                            <span className="badge badge-outline">Tomorrow</span>
-                                        </div>
-                                    </div>
+                                <div className='relative min-h-52 flex items-center justify-center'>
+                                    <p className="text-center">Coming Soon. Stay tuned</p>
                                 </div>
                             </div>
                         </div>
@@ -345,7 +291,7 @@ export default function Dashboard() {
                             </div>
                             {/* Leaderboard & Scores */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:mt-5">
-                                <div className="card bg-white text-black p-4  border-gray-600 rounded-md">
+                                <div className="card  bg-white text-black p-4  border-gray-600 rounded-md">
                                     <div className="card-header">
                                         <h3 className="card-title font-bold text-2xl">Leaderboard</h3>
                                     </div>
@@ -405,7 +351,7 @@ export default function Dashboard() {
                                 </div>
 
                                 {/* Create Class */}
-                                <div className="grid grid-cols-1 sm:grid-cols-1 gap-6">
+                                <div className="grid grid-cols-1 sm:grid-cols-1 gap-6 rounded-md">
                                     <div className="bg-white p-6 shadow-md rounded-xl border border-gray-100 text-black">
                                         <h2 className="text-2xl font-bold text-gray-800 mb-4">Create a Class</h2>
                                         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -435,58 +381,12 @@ export default function Dashboard() {
                     </div>
                     {/* Right Sidebar */}
                     <div className="space-y-6 mt-3 md:mt-6">
-                        <div className="card bg-white p-5 rounded-md border border-gray-300">
+                        <div className="card relative bg-white p-5 min-h-3/4 rounded-md border border-gray-300">
                             <div className="card-header">
-                                <h3 className="card-title">Class progress</h3>
+                                <h3 className="card-title">Chat Bot</h3>
                             </div>
-                            <div className="card-content space-y-4">
-                                <div className="grid grid-cols-2 gap-3">
-                                    <div className="border border-gray-300 rounded-md p-3 col-span-1">
-                                        <div className="text-sm font-medium">Assignments</div>
-                                        <div className="text-2xl font-bold mt-1">12/15</div>
-                                    </div>
-                                    <div className="border border-gray-300 rounded-md p-3 col-span-1">
-                                        <div className="text-sm font-medium">Average Score</div>
-                                        <div className="text-2xl font-bold mt-1">85%</div>
-                                    </div>
-                                    <div className="border border-gray-300 rounded-md p-3 col-span-1">
-                                        <div className="text-sm font-medium">Attendance</div>
-                                        <div className="text-2xl font-bold mt-1">92%</div>
-                                    </div>
-                                    <div className="border border-gray-300 rounded-md p-3 col-span-1">
-                                        <div className="text-sm font-medium">Rank</div>
-                                        <div className="text-2xl font-bold mt-1">#4</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="card bg-white p-5 rounded-md border border-gray-300">
-                            <div className="card-header flex flex-row items-center justify-between pb-2">
-                                <h3 className="card-title">Schedule</h3>
-                                <button className="text-blue-600 text-sm font-medium flex items-center">
-                                    See all <ChevronRight className="h-4 w-4 ml-1" />
-                                </button>
-                            </div>
-                            <div className="card-content space-y-3">
-                                <div className="border border-gray-200 rounded-md p-3">
-                                    <div className="flex justify-between items-start">
-                                        <div>
-                                            <h3 className="font-medium">Chemistry Lab</h3>
-                                            <p className="text-sm text-gray-500">10:00 AM - 11:30 AM</p>
-                                        </div>
-                                        <span className="badge badge-primary">Today</span>
-                                    </div>
-                                </div>
-                                <div className="border border-gray-200 rounded-md p-3">
-                                    <div className="flex justify-between items-start">
-                                        <div>
-                                            <h3 className="font-medium">Physics Quiz</h3>
-                                            <p className="text-sm text-gray-500">2:00 PM - 3:00 PM</p>
-                                        </div>
-                                        <span className="badge badge-outline">Tomorrow</span>
-                                    </div>
-                                </div>
+                            <div className='relative min-h-52 flex items-center justify-center'>
+                                <p className="text-center">Coming Soon. Stay tuned</p>
                             </div>
                         </div>
                     </div>

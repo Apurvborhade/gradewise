@@ -65,8 +65,17 @@ Feedback:
 Score: X/${maxScore}
 Correct Answers: [If applicable, provide correct answers]
 Feedback:
-- Accuracy: [Detailed feedback]
-- Completeness: [Detailed feedback]
+    strengths: [
+        "Strength 1",
+        "strength 2",
+        ...
+    ],
+    improvements: [
+        'improvement 1',
+        'improvement 2',
+        ....  
+    ],
+    overallFeedback: "feedback.....",
 \`\`\`
 `;
             break;

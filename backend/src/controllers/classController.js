@@ -170,10 +170,8 @@ export const getLeaderBoard = async (req, res, next) => {
         const querySnap = await getDocs(q);
 
         const students = [];
-        console.log(querySnap.size)
         querySnap.forEach((docSnap) => {
             const data = docSnap.data();
-            console.log("Student Data",data)
             students.push({
                 id: docSnap.id,
                 username: data.username || "",
@@ -186,7 +184,6 @@ export const getLeaderBoard = async (req, res, next) => {
             .sort((a, b) => b.xp - a.xp)
             .slice(0, 10);
 
-        console.log(students)
         res.status(200).json(topStudents);
     } catch (error) {
         next(error)

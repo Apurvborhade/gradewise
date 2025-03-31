@@ -20,16 +20,16 @@ function SigninForm() {
     const formData = {
       email, password
     }
-    const response = await signin(formData).unwrap()
-    console.log(response)
-    if (response?.token) {
-      // ✅ Manually set cookie in the browser
-      document.cookie = `token=${response.token}; path=/; Secure; SameSite=None`;
-      console.log('Cookie set manually:', document.cookie);
-    } else {
-      console.error('Token not found in response:', response);
-    }
+    try {
+      const response = await signin(formData).unwrap()
+      if (response?.token) {
+        // ✅ Manually set cookie in the browser
+        document.cookie = `token=${response.token}; path=/; Secure; SameSite=None`;
 
+      }
+    } catch (error) {
+      console.log(error?.data?.message);
+    }
   }
   useEffect(() => {
     if (isSuccess && !isLoading) {
@@ -52,7 +52,7 @@ function SigninForm() {
         router.push('/dashboard')
       }
     }
-  }, [isSuccess, isLoading, error])
+  }, [isSuccess, isLoading])
   return (
     <>
       <div className="w-full flex min-h-screen">

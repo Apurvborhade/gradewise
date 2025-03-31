@@ -30,9 +30,10 @@ export const studentProgress = async (studentId, submittedAssignmentId, next) =>
 
 export const getLeaderboard = async (topN = 10) => {
     const leaderboardRef = collection(db, "users");
-    const q = query(leaderboardRef, orderBy("xp", "desc"), limit(topN));
+    const q = query(leaderboardRef);
 
     const querySnapshot = await getDocs(q);
+    console.log(querySnapshot.docs)
     let leaderboard = [];
 
     querySnapshot.forEach((doc) => {
