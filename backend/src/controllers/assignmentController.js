@@ -140,6 +140,7 @@ export const getStudentAssignments = async (req, res, next) => {
                 return {
                     id: docSnap.id,
                     ...assignment,
+                    assignmentName:assignmentSnap.data().assignmentName,
                     className,
                     maxScore,
                 };

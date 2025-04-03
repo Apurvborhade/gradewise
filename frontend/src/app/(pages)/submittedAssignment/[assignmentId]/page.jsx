@@ -15,6 +15,7 @@ import { useParams, useRouter } from "next/navigation";
 // Redux
 import { useGetSubmittedAssignmentDetailsQuery } from "@/app/features/assignments/assignmentApi";
 import Link from "next/link";
+import { format } from "date-fns";
 
 
 
@@ -143,6 +144,9 @@ export default function SubmittedAssignmentsPage() {
                 >
                   {assignmentDetails.accepted ? "Accepted" : "Pending"}
                 </Badge>
+                <span className="text-sm text-muted-foreground">
+                  Submitted on {format(new Date(assignmentDetails.submissionDate.seconds * 1000).toISOString(),"dd MMMM yyyy")}
+                </span>
               </div>
             </div>
 
@@ -280,7 +284,7 @@ export default function SubmittedAssignmentsPage() {
                       </div>
                       <div className="flex justify-between text-sm">
                         <span>Percentage</span>
-                        <span className="font-medium">{(assignmentDetails.score/10) * 100}%</span>
+                        <span className="font-medium">{(assignmentDetails.score / 10) * 100}%</span>
                       </div>
                       <div className="flex justify-between text-sm">
                         <span>Plagiarism</span>
