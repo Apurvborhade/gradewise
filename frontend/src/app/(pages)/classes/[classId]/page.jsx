@@ -9,7 +9,7 @@ import { useGetAllAssignmentsQuery, useGetAssignmentAcceptedQuery, useGetAssignm
 import Link from 'next/link';
 import { Loader } from '@/app/components/Loader';
 import { Bounce, toast } from 'react-toastify';
-import { Calendar, CheckCircle, Eye, FileText, Plus } from 'lucide-react';
+import { Calendar, CheckCircle, Eye, FileText, Plus,XCircle } from 'lucide-react';
 import Image from 'next/image';
 
 const ClassPage = () => {
