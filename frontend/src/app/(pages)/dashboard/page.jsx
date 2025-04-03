@@ -35,7 +35,11 @@ export default function Dashboard() {
     const { user, loading } = useAuth();
     const { data: leaderboardStudents, isLoading: LeaderboardLoading } = useGetLeaderboardQuery();
     const [className, setClassName] = useState("");
+
     const { data: classes, isLoading, refetch } = useGetClassesQuery({
+=======
+    const [assignmentType, setAssignmentType] = useState("");
+    const { data: classes, isLoading, isError: ClassNotFound, isSuccess, refetch } = useGetClassesQuery({
         userId: user?.uid,
         limit: 3
     }, {
@@ -92,6 +96,7 @@ export default function Dashboard() {
                                         </Link>
                                     </div>
 
+
                                     {isLoading ? (
                                         <div className="flex justify-center py-12">
                                             <Loader className="stroke-indigo-600" />
@@ -121,6 +126,35 @@ export default function Dashboard() {
                                             ) : (
                                                 <div className="col-span-full text-center py-8">
                                                     <p className="text-gray-500">You're not enrolled in any classes yet.</p>
+=======
+                    {/* Dashboard Content */}
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div className="lg:col-span-2 space-y-6">
+                            {/* Main Section */}
+                            <div className="md:p-5">
+                                <div className="flex items-center justify-between mb-4">
+                                    <h2 className="text-xl font-semibold">My classes</h2>
+                                    <Link href={'/classes'} className="text-blue-600 text-sm font-medium flex items-center">
+                                        see all <ChevronRight className="h-4 w-4 ml-1" />
+                                    </Link>
+                                </div>
+                                {(isLoading || loading) && <div className={'w-full flex justify-center items-center'}><Loader className={'stroke-black'} /></div>}
+
+                                {/* Subject Cards */}
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:mb-10">
+                                    {ClassNotFound && (
+                                        <div className='col-span-3'>
+                                            <p className='text-xl mt-5 text-center'>No Class found</p>
+                                            <p className='text-sm p-1  text-center italic'>Ask faculty for class invite link.</p>
+                                        </div>
+                                    )}
+                                    {!isLoading && classes && classes.map((cls, index) => (
+                                        <div key={index} className={`rounded-lg overflow-hidden border-none shadow-md  bg-${cardColors[Math.floor(Math.random() * cardColors.length)]}-300 bg-blue-300`}>
+                                            <div className="p-4 pb-2">
+                                                <div className="flex justify-between items-start">
+                                                    <h3 className="text-lg font-bold">{cls.className}</h3>
+                                                    <Bookmark className="h-5 w-5 text-white" />
+
                                                 </div>
                                             )}
                                         </div>
@@ -275,6 +309,9 @@ export default function Dashboard() {
                         </div>
                     </main>
                     <Footer />
+=======
+                    </div>
+
                 </div>
             </div>
         );
@@ -343,6 +380,21 @@ export default function Dashboard() {
                                         <div className="flex items-center gap-3 mb-4">
                                             <div className={`p-2 rounded-lg ${colorVariants.primary} text-white`}>
                                                 <Trophy className="h-5 w-5" />
+=======
+                            {/* Subject Cards */}
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 ">
+                                {ClassNotFound && (
+                                    <div className='col-span-3'>
+                                        <p className='text-xl mt-5 text-center'>No Class found</p>
+                                    </div>
+                                )}
+                                {!isLoading && classes && classes.map((cls, index) => (
+                                    <div key={index} className={`rounded-lg overflow-hidden border-none shadow-md  bg-${cardColors[Math.floor(Math.random() * cardColors.length)]}-300`}>
+                                        <div className="p-4 pb-2">
+                                            <div className="flex justify-between items-start">
+                                                <h3 className="text-lg font-bold">{cls.className}</h3>
+                                                <Bookmark className="h-5 w-5 text-white" />
+
                                             </div>
                                             <h3 className="text-xl font-bold text-gray-800">Top Students</h3>
                                         </div>
