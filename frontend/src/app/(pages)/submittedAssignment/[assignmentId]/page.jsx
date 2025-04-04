@@ -176,7 +176,7 @@ export default function SubmittedAssignmentsPage() {
                     <CardDescription>Automated feedback on your submission</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div>
+                    {/* <div>
                       <h3 className="flex items-center text-sm font-medium text-green-600 mb-2">
                         <ThumbsUp className="mr-2 h-4 w-4" />
                         Strengths
@@ -206,11 +206,11 @@ export default function SubmittedAssignmentsPage() {
                       </ul>
                     </div>
 
-                    <Separator />
+                    <Separator /> */}
 
                     <div>
                       <h3 className="text-sm font-medium mb-2">Overall Feedback</h3>
-                      <p className="text-sm">{assignmentDetails.feedBackResponse.overallFeedback}</p>
+                      <p className="text-sm">{assignmentDetails.feedback}</p>
                     </div>
                   </CardContent>
                 </Card>
